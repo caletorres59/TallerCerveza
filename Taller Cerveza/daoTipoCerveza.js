@@ -6,6 +6,10 @@ var mysql = require('mysql');
 var constantes = require('./constantes');
 function conectardb() {
 
+    console.log(constantes.host);
+    console.log(constantes.user);
+    console.log(constantes.pass);
+    console.log(constantes.database);
     //Se hace una conexion a la base de datos
     conexion = mysql.createConnection({
         host: constantes.host,
@@ -76,14 +80,13 @@ function eliminarTipoCerveza(pedido, respuesta) {
         //Se manda el codigo en la busqueda
         var sql = 'delete from tiposcerveza where codigo= ?';
         conexion.query(sql, codigo, function (error, filas) {
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
                 respuesta.write(constantes.ERROR);
             } else {
                 //Se responde
-                respuesta.writeHead(200, {'Content-Type': 'text/json'});
-                respuesta.write(JSON.stringify(filas));
+                respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
@@ -105,11 +108,12 @@ function crearTipoCerveza(pedido, respuesta) {
     //Cuando termina de capturar y pasar los datos a JSON
     pedido.on('end', function () {
         var datos = querystring.parse(info);
+        console.log(datos);
         //Se crea un objeto con la informacion capturada
         var registro = {
-            NOMBRE: datos['NOMBRE'],
-            DESCRIPCION: datos['VALOR'],
-            GRADOALCOHOL: datos['GRADOALCOHOL']
+            NOMBRE: datos['nombre'],
+            DESCRIPCION: datos['descripcion'],
+            GRADOALCOHOL: datos['porcentaje']
         };
         var sql = 'insert into tiposcerveza set ?';
         //Se hace un insert mandado el objet completo
@@ -134,16 +138,17 @@ function crearTipoCerveza(pedido, respuesta) {
  * @returns {undefined}
  */
 function listarTiposCerveza(respuesta) {
-    var sql = 'select ID,ML,VALOR from presentaciones';
+    var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza';
     //Se realiza la consulta, recibiendo por parametro filas los registros de la base de datos.         
     conexion.query(sql, function (error, filas) {
-        respuesta.writeHead(200, {'Content-Type': 'text/plain'});
         if (error) {
             console.log(error);
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             respuesta.write(constantes.ERROR);
         } else {
             //Se responde
-            respuesta.write(datos.substring(0, datos.length - 1));
+            respuesta.writeHead(200, {'Content-Type': 'text/json'});
+            respuesta.write(JSON.stringify(filas));
         }
         respuesta.end();
     });

@@ -2,18 +2,27 @@
 var querystring = require('querystring');
 /*Se importa el modulo npm MYSQL*/
 var mysql = require('mysql');
+
+var constantes = require('./constantes');
 function conectardb() {
+    
+    console.log(constantes.host);
+    console.log(constantes.user);
+    console.log(constantes.pass);
+    console.log(constantes.database);
+    
 
     //Se hace una conexion a la base de datos
     conexion = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'base1'
+        host: constantes.host,
+        user: constantes.user,
+        password: constantes.pass,
+        database: constantes.database
     });
     //Se conecta a la base de datos
     conexion.connect(function (error) {
         if (error) {
+            console.log(error);
             console.log('Problemas de conexion con mysql');
         } else {
             console.log('Conexion exitosa');
