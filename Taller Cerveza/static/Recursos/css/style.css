@@ -1,18 +1,10 @@
-div.panel figure
+
+div.container-fluid
 {
-	float: left;
-	margin-top:-200px;
-	margin-left: -40px;
+	padding-left: 0;
+	padding-right: 0;	
 }
-div.panel figure img
+nav
 {
-	border-color: #CE1010;
-	border-radius: 50%;
-	border-style: solid;
-	border-width: 1px;
-	height: 300px;
-	width: 180px;
-	transition-duration: 1s;
-	/*con transition hago que el cambio sea menos brusco
-	cuando utilizo la propiedad transform en el hover*/
+	border-radius: 0 !important;
 }

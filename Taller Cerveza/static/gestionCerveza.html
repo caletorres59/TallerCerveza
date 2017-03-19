@@ -3,6 +3,7 @@
 <head>
 	  <title>Taller Bebidas</title>
         <link rel="stylesheet" type="text/css" href="Recursos\bower_components\bootstrap\dist\css\bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
         <script type="text/javascript" src="Recursos\bower_components\jquery\dist\jquery.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\angular\angular.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\bootstrap\dist\js\bootstrap.js"></script>
@@ -16,72 +17,81 @@
 	
 	<header>
          <nav class="navbar navbar-inverse">
-             <a href="#" class="Brand">Taller Cerveza</a>
+             <a href="index.html" class="navbar-brand">Taller Cerveza</a>
          </nav>
     </header>
 
-<div class="row">
-	<div class="col-md-12">
-		 <img src="Recursos/img/descarga.jfif" alt="" class="img-circle img-responsive center-block">
-	</div>
+  <div class="container">
+    
+    <div class="row">
+  <div class="col-md-12">
+     <img src="Recursos/img/descarga.jfif" alt="" class="img-circle img-responsive center-block">
+  </div>
 </div>
 <br>
-
 <div ng-controller="CtlCerveza"">
-	<div class="row">
-	<div class="col-md-12">
-		
-		<div class="panel panel-info">
-		<figure><img src="imagenes/tip.jpg"></figure>
-  			<div class="panel-heading">
+  <div class="row">
+  <div class="col-md-12">
+    
+    <div class="panel panel-info">
+  
+        <div class="panel-heading">
 
-   			 <h3 class="panel-title">Gestión Cerveza</h3>
-  			</div>
-  		<div class="panel-body">
-    		<form name="formCerveza" role="form">
-    				  <div class="form-group">
-					   
-					    <input type="text"  class="form-control" id="nombre"  style="display: none;" ng-model="identificacion.codigo">
-					  </div>	
-					  <div class="form-group">
-					    <label for="Nombre">Nombre:</label>
-					    <input type="text" class="form-control" id="nombre"  placeholder="nombre" ng-model="identificacion.nombre">
-					  </div>
-					   <div class="form-group">
-					    <label for="descripcion">Descripcion:</label>
-					    <input type="text" class="form-control" id="descripcion" placeholder="descripcion"  ng-model="identificacion.descripcion">
-					  </div>
-					   <div class="form-group">
-					    <label for="Tipo">Procentaje Alcohol:</label>
-					    <input type="number" class="form-control" id="nombre"  placeholder="Porcentaje" ng-model="identificacion.porcentaje">
-					  </div>
-					 
-  						<div class="btn-group btn-group-justified">
-							  <a href="#" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
-							  <a href="#" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
-							  <a href="#" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a>
-						</div>
-  					
-		 </form>
- 		 </div>
+         <h3 class="panel-title">Gestión Cerveza</h3>
+        </div>
+      <div class="panel-body">
+        <form name="formCerveza" role="form">
+              <div class="form-group">
+             
+              <input type="text"  class="form-control" id="nombre"  style="display: none;" ng-model="identificacion.codigo">
+            </div>  
+            <div class="form-group">
+              <label for="Nombre">Nombre:</label>
+              <input type="text" class="form-control" id="nombre"  placeholder="nombre" ng-model="identificacion.nombre">
+            </div>
+             <div class="form-group">
+              <label for="descripcion">Descripcion:</label>
+              <input type="text" class="form-control" id="descripcion" placeholder="descripcion"  ng-model="identificacion.descripcion">
+            </div>
+             <div class="form-group">
+              <label for="Tipo">Procentaje Alcohol:</label>
+              <input type="number" class="form-control" id="nombre"  placeholder="Porcentaje" ng-model="identificacion.porcentaje">
+            </div>
+           
+              <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
+                <a href="#" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
+                <a href="#" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a>
+            </div>
+            
+     </form>
+     </div>
 </div>
 
 
-	</div>
+  </div>
 
 </div>
 
 
-			<div class="row">
-				<div class="col-md-12">
-					
-
-						<div class="panel panel-default">
-  			<div class="panel-heading">
-   			 <h3 class="panel-title">Listado de Cervezas</h3>
-  			</div>
-  				<div class="panel-body">
-    				<div class="table-responsive">
+      <div class="row">
+        <div class="col-md-12">
+          
+        <div class="panel panel-default">
+        <div class="panel-heading">
+         <h3 class="panel-title">Listado de Cervezas</h3>
+         <br>
+         <br>
+          <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
+                        
+                        <input type="text" class="form-control" placeholder="Buscar Produccion" ng-model="buscar">
+                    </div>
+        </div>
+          <div class="panel-body">
+            <div class="table-responsive">
 
                         <table class="table table-responsive table-hover table-striped table-condensed">
                             <thead>
@@ -133,16 +143,22 @@
                             </tbody>
                         </table>
                     </div>
- 		 		</div>
+        </div>
 </div>
 
-			</div>
+      </div>
 
 
 
 </div>
 
 </div>
+
+
+
+  </div>
+
+
 
 
 
