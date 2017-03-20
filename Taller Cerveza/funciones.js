@@ -19,11 +19,14 @@ var mime = require('mime');
 var dao = require('./dao');
 
 var daoTipoCerveza = require('./daoTipoCerveza');
+var daoPresentacion = require('./daoPresentacion');
 
 
 function configurarServidor() {
 
     daoTipoCerveza.conectardb();
+    daoPresentacion.conectardb();
+
 
     servidor = http.createServer(function (entrada, respuesta) {
 
@@ -46,32 +49,21 @@ function configurarServidor() {
                 daoTipoCerveza.eliminarTipoCerveza(entrada, respuesta);
                 break;
             }
-            case 'static/alta':
+            case 'static/listarPresentaciones':
             {
-                //Si se da en alta
-                dao.alta(entrada, respuesta);
+                daoPresentacion.listarPresentaciones(respuesta);
                 break;
             }
-            case 'static/listado':
+            case 'static/crearPresentacion':
             {
-                //Si se da en listado
-                dao.listado(respuesta);
+                daoPresentacion.crearPresentacion(entrada, respuesta);
                 break;
             }
-
-            case 'static/consultaporcodigo':
+            case 'static/eliminarPresentacion':
             {
-                //Si se da en consultar por codigo
-                dao.consulta(entrada, respuesta);
+                daoPresentacion.eliminarPresentacion(entrada, respuesta);
                 break;
             }
-            case 'static/eliminar':
-            {
-                //Si se da en consultar por codigo
-                dao.eliminar(entrada, respuesta);
-                break;
-            }
-
             default:
             {
                 //Validamos si la pagina solicitada existe

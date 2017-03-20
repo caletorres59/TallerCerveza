@@ -14,7 +14,6 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
     $scope.identificacion = "";
     $scope.cervezas = [];
     //$scope.identificacion = "";
-    $scope.cervezas = [];
 
     /*Se define una funcion en el controlador*/
     $scope.guardar = function (form) {
@@ -25,9 +24,6 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
          * uso de ese paradigma*/
         /*Si el formulario esta bien validado*/
         if (form) {
-
-
-
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
             cervezaService.guardar($scope.identificacion).then(function (response) {
@@ -40,6 +36,7 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
         } else {
             alert("Verifique los datos ingresados");
         }
+        $scope.listar();
     };
     //modificar////////////////////////////////////////////
     $scope.modificar = function (form) {
@@ -79,20 +76,12 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
             // //      * asociados*/
             return response;
         });
+        $scope.listar();
     };
 
     //listar//////////////////////////////////////////
     $scope.listar = function () {
-        /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
-         * promesas con el "then", que se ejecuta unicamente cuando se le retorna
-         * un valor valido. Este se ejecuta unicamente cuando el llamado http 
-         * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
-         * uso de ese paradigma*/
-
-        /*Si el formulario esta bien validado*/
-
-
-
+        $scope.cervezas = [];
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
         //  * el cual esta asociado a los input*/
         cervezaService.listar($scope.identificacion).then(function (response) {
