@@ -149,6 +149,8 @@ app.controller('CtlCerveza', function ($scope,cervezaService) {
             $scope.identificacion.porcentaje = cervesa.porcentaje;
             };
 
+            $scope.listar();
+
 
 
 

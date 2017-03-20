@@ -116,7 +116,7 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/            
-            return response.data;
+            alert(response.data);
         }, function myError(response) {
             alert("Error");
             alert(response.statusText);
