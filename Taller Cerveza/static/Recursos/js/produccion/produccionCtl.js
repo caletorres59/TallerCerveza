@@ -12,7 +12,8 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
 
     /*Se inicializa el modelo*/
     $scope.identificacion = "";
-    $scope.producciones = [];   
+    $scope.producciones = []; 
+    $scope.cervezas = []; 
 
     /*Se define una funcion en el controlador*/
     $scope.guardar = function (form) {
@@ -23,7 +24,7 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
          * uso de ese paradigma*/
          alert($scope.identificacion.codigo);
          alert($scope.identificacion.fecha);
-         alert($scope.identificacion.selTipo);
+         alert($scope.identificacion.selTipo.codigo);
         alert($scope.identificacion.selPresentacion);
         alert($scope.identificacion.comentarios);
         /*Si el formulario esta bien validado*/
@@ -50,9 +51,10 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.codigo);
+         alert($scope.identificacion.ID);
          alert($scope.identificacion.fecha);
-         alert($scope.identificacion.selTipo);
+         alert($scope.identificacion.selTipo.Id);
+         alert($scope.identificacion.selTipo.codigo);
          alert($scope.identificacion.selPresentacion);
         /*Si el formulario esta bien validado*/
         if (form) {
@@ -124,6 +126,91 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
         
     };
 
+
+    ///////////Listar Cervezas
+
+         $scope.listarCervezas = function () {
+        /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
+         * promesas con el "then", que se ejecuta unicamente cuando se le retorna
+         * un valor valido. Este se ejecuta unicamente cuando el llamado http 
+         * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
+         * uso de ese paradigma*/
+        
+        /*Si el formulario esta bien validado*/
+      
+          
+
+            // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
+            //  * el cual esta asociado a los input*/
+             produccionService.listarCervezas($scope.identificacion).then(function (response) {
+            // //     /*El resultado de la promesa se recibe por parametro*/
+            // //     //alert(response.usuario + " " + response.password);
+            // //     /*Solo con limpiar el objeto se limpian todos los input 
+             if (response.length > 0)
+            {
+                for (var i = 0; i < response.length; i++)
+                {
+                    $scope.cervezas.push({
+                        codigo: response[i].ID,
+                        nombre: response[i].NOMBRE,
+                        descripcion: response[i].DESCRIPCION,
+                        porcentaje: response[i].GRADOALCOHOL
+
+                    });
+                }
+            } else
+            {
+                alert("No hay registros en la base de datos");
+            }
+
+            // //      * asociados*/
+              $scope.identificacion = "";
+             });
+        
+    };
+
+    ///////////////Listar las presentaciones
+    
+      $scope.listarPresentaciones = function () {
+        /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
+         * promesas con el "then", que se ejecuta unicamente cuando se le retorna
+         * un valor valido. Este se ejecuta unicamente cuando el llamado http 
+         * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
+         * uso de ese paradigma*/
+        
+        /*Si el formulario esta bien validado*/
+      
+          
+
+            // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
+            //  * el cual esta asociado a los input*/
+             produccionService.listarCervezas($scope.identificacion).then(function (response) {
+            // //     /*El resultado de la promesa se recibe por parametro*/
+            // //     //alert(response.usuario + " " + response.password);
+            // //     /*Solo con limpiar el objeto se limpian todos los input 
+             if (response.length > 0)
+            {
+                for (var i = 0; i < response.length; i++)
+                {
+                    $scope.cervezas.push({
+                        codigo: response[i].ID,
+                        nombre: response[i].NOMBRE,
+                        descripcion: response[i].DESCRIPCION,
+                        porcentaje: response[i].GRADOALCOHOL
+
+                    });
+                }
+            } else
+            {
+                alert("No hay registros en la base de datos");
+            }
+
+            // //      * asociados*/
+              $scope.identificacion = "";
+             });
+        
+    };
+
     //Ordenar Campos////////////////////////////////////////
     $scope.ordenarPorParametro = function(tipo)
             {
@@ -155,7 +242,7 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             };
 
 
-
+                $scope.listarCervezas();
 
 });
 
