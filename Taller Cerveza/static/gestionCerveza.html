@@ -61,9 +61,9 @@
                                         </div>
 
                                         <div class="btn-group btn-group-justified">
-                                            <a href="#" id="btnGuardar" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
-                                            <a href="#" id="btnEditar" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
-                                            <a href="#" id="btnEliminar" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a>
+                                            <a href="#" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
+                                            <a href="#" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
+                                            <!--<a href="#" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a> -->
                                         </div>
 
                                     </form>
@@ -93,7 +93,6 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
-
                                         <table class="table table-responsive table-hover table-striped table-condensed">
                                             <thead>
                                                 <tr>
@@ -122,21 +121,18 @@
                                                         <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('porcentaje')"></a>
                                                         <label>Porcentaje</label>
                                                         <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-porcentaje')"></a>
-
-
                                                     </th>
-
-
-
-
+                                                    <th>
+                                                        <label>Eliminar</label>
+                                                    </th>
                                             </thead>
-
                                             <tbody>
-                                                <tr ng-click="mostrarCampos(obj.codigo)" ng-repeat="obj in cervezas| orderBy: ordenSeleccionado | filter:buscar">
+                                                <tr ng-click="mostrarCampos(obj.ID)" ng-repeat="obj in cervezas| orderBy: ordenSeleccionado | filter:buscar">
                                                     <td>{{obj.codigo| uppercase}}</td>
                                                     <td>{{obj.nombre| uppercase}}</td>
                                                     <td>{{obj.descripcion| uppercase}}</td>
                                                     <td>{{obj.porcentaje| uppercase}}</td>
+                                                    <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
                                                 </tr>
 
                                             </tbody>
@@ -144,28 +140,10 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-
-
                     </div>
-
-                
-
-
-
+                </div>
             </div>
-
-
-    </div>
-       
-
-
-
-
-
-
-
+        </div>
     </body>
 </html>

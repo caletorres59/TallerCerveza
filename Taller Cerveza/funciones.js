@@ -41,6 +41,11 @@ function configurarServidor() {
                 daoTipoCerveza.listarTiposCerveza(respuesta);
                 break;
             }
+            case 'static/eliminarTipoCerveza':
+            {
+                daoTipoCerveza.eliminarTipoCerveza(entrada, respuesta);
+                break;
+            }
             case 'static/alta':
             {
                 //Si se da en alta

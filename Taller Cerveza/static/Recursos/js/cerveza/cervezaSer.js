@@ -34,9 +34,9 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
                 descripcion: identificacion.descripcion,
                 porcentaje: identificacion.porcentaje
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/    
+            /*Todos los datos se almacenan en .data*/
             alert(response.data);
             return response.data;
         }, function myError(response) {
@@ -49,25 +49,22 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Eliminar
-    
-     this.eliminar = function (identificacion) {
+
+    this.eliminar = function (codigo) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-        alert("estoy en el servicio eliminar"+identificacion.nombre);
         var promise = $http({
             method: "post",
-            url: "/eliminar",
+            url: "/eliminarTipoCerveza",
             data: $httpParamSerializerJQLike({
-                codigo: identificacion.codigo
+                codigo: codigo
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
-            return response.data;
+            /*Todos los datos se almacenan en .data*/
         }, function myError(response) {
             alert("Error");
-            alert(response.statusText);
         });
 
         /*Luego se retorna la promesa*/
@@ -75,11 +72,11 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Modificar
-     this.modificar = function (identificacion) {
+    this.modificar = function (identificacion) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-        alert("estoy en el servicio modificar"+identificacion.nombre);
+        alert("estoy en el servicio modificar" + identificacion.nombre);
         var promise = $http({
             method: "post",
             url: "/modificar",
@@ -88,9 +85,9 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
                 descripcion: identificacion.descripcion,
                 porcentaje: identificacion.porcentaje
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -102,23 +99,20 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Listar
-     this.listar = function (identificacion) {
+    this.listar = function (identificacion) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
-
-        alert("estoy en el servicio listar");
         var promise = $http({
             method: "post",
             url: "/listarTiposCerveza",
             data: $httpParamSerializerJQLike({
             }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
-            alert(response.data);
+            /*Todos los datos se almacenan en .data*/
+            return response.data;
         }, function myError(response) {
             alert("Error");
-            alert(response.statusText);
         });
 
         /*Luego se retorna la promesa*/

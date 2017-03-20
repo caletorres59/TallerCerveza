@@ -84,27 +84,15 @@ function eliminarTipoCerveza(pedido, respuesta) {
         var codigo = [datos['codigo']];
         console.log(codigo+"ssdsds");
         //Se manda el codigo en la busqueda
-
-        var sql = 'delete from tiposcerveza where ID=?';
-
+        var sql = 'delete from tiposcerveza where ID = ?';
         conexion.query(sql, codigo, function (error, filas) {
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             if (error) {
-                console.log('error en la consulta');
-                return;
-            }
-            //Se responde
-            respuesta.writeHead(200, {'Content-Type': 'text/html'});
-            //Se lee el registro obtenido y se sacan sus datos
-            var datos = '';
-            if (filas.length > 0) {
-                datos += 'ok';
+                console.log(error);
+                respuesta.write(constantes.ERROR);
             } else {
-                datos = 'error';
+                respuesta.write(constantes.OK);
             }
-
-            //Se responde
-           
-            respuesta.write(datos);   
             respuesta.end();
         });
     });
