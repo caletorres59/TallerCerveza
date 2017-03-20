@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-	  <title>Taller Bebidas</title>
+    <head>
+        <title>Taller Bebidas</title>
         <link rel="stylesheet" type="text/css" href="Recursos\bower_components\bootstrap\dist\css\bootstrap.css">
         <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
         <script type="text/javascript" src="Recursos\bower_components\jquery\dist\jquery.js"></script>
@@ -11,152 +11,155 @@
 
         <script type="text/javascript" src="Recursos/js/cerveza/cervezaCtl.js"></script>
         <script type="text/javascript" src="Recursos/js/cerveza/cervezaSer.js"></script>
-</head>
-<body ng-app="appControladorCerveza">
-<div class="container-fluid">
-	
-	<header>
-         <nav class="navbar navbar-inverse">
-             <a href="index.html" class="navbar-brand">Taller Cerveza</a>
-         </nav>
-    </header>
+    </head>
+    <body ng-app="appControladorCerveza">
 
-  <div class="container">
-    
-    <div class="row">
-  <div class="col-md-12">
-     <img src="Recursos/img/descarga.jfif" alt="" class="img-circle img-responsive center-block">
-  </div>
-</div>
-<br>
-<div ng-controller="CtlCerveza"">
-  <div class="row">
-  <div class="col-md-12">
-    
-    <div class="panel panel-info">
-  
-        <div class="panel-heading">
+    <div ng-controller="CtlCerveza">
+         <div class="container-fluid">
 
-         <h3 class="panel-title">Gestión Cerveza</h3>
-        </div>
-      <div class="panel-body">
-        <form name="formCerveza" role="form">
-              <div class="form-group">
-             
-              <input type="text"  class="form-control" id="nombre"  style="display: none;" ng-model="identificacion.codigo">
-            </div>  
-            <div class="form-group">
-              <label for="Nombre">Nombre:</label>
-              <input type="text" class="form-control" id="nombre"  placeholder="nombre" ng-model="identificacion.nombre">
-            </div>
-             <div class="form-group">
-              <label for="descripcion">Descripcion:</label>
-              <input type="text" class="form-control" id="descripcion" placeholder="descripcion"  ng-model="identificacion.descripcion">
-            </div>
-             <div class="form-group">
-              <label for="Tipo">Procentaje Alcohol:</label>
-              <input type="number" class="form-control" id="nombre"  placeholder="Porcentaje" ng-model="identificacion.porcentaje">
-            </div>
-           
-              <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
-                <a href="#" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
-                <a href="#" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a>
-            </div>
-            
-     </form>
-     </div>
-</div>
+            <header>
+                <nav class="navbar navbar-inverse">
+                    <a href="index.html" class="navbar-brand">Taller Cerveza</a>
+                </nav>
+            </header>
 
+            <div class="container">
 
-  </div>
-
-</div>
-
-
-      <div class="row">
-        <div class="col-md-12">
-          
-        <div class="panel panel-default">
-        <div class="panel-heading">
-         <h3 class="panel-title">Listado de Cervezas</h3>
-         <br>
-         <br>
-          <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </span>
-                        
-                        <input type="text" class="form-control" placeholder="Buscar Produccion" ng-model="buscar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="Recursos/img/descarga.jfif" alt="" class="img-circle img-responsive center-block">
                     </div>
-        </div>
-          <div class="panel-body">
-            <div class="table-responsive">
+                </div>
+                <br>
+              
+                    <div class="row">
+                        <div class="col-md-12">
 
-                        <table class="table table-responsive table-hover table-striped table-condensed">
-                            <thead>
-                            <tr>
-                             <th class="seleccionable">
-                                    
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click=""></a>
-                                    <label>Codigo</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-codigo')"></a>
-                                  
-                                </th>
-                                <th class="seleccionable">
-                                    
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click=""></a>
-                                    <label>Nombre</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-nombre')"></a>
-                                  
-                                </th>
-                                
-                                <th class="seleccionable">
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('descripcion')"></a>
-                                     <label>Descripción</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-descripcion')"></a>
-                                </th>
-                                
-                                <th class="seleccionable">
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('porcentaje')"></a>
-                                    <label>Porcentaje</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-porcentaje')"></a>
-                                  
-                                    
-                                </th>
-                                
-                          
-                                
-                                 
-                        </thead>
+                            <div class="panel panel-info">
+
+                                <div class="panel-heading">
+
+                                    <h3 class="panel-title">Gestión Cerveza</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form name="formCerveza" role="form">
+                                        <div class="form-group">
+
+                                            <input type="text"  class="form-control" id="nombre"  style="display: none;" ng-model="identificacion.codigo">
+                                        </div>  
+                                        <div class="form-group">
+                                            <label for="Nombre">Nombre:</label>
+                                            <input type="text" class="form-control" id="nombre"  placeholder="nombre" ng-model="identificacion.nombre">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="descripcion">Descripcion:</label>
+                                            <input type="text" class="form-control" id="descripcion" placeholder="descripcion"  ng-model="identificacion.descripcion">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Porcentaje">Procentaje Alcohol:</label>
+                                            <input type="text" class="form-control" id="porcentaje"  placeholder="Porcentaje" ng-model="identificacion.porcentaje">
+                                        </div>
+
+                                        <div class="btn-group btn-group-justified">
+                                            <a href="#" id="btnGuardar" class="btn btn-success" ng-click="guardar('formCerveza')">Guardar</a>
+                                            <a href="#" id="btnEditar" class="btn btn-warning" ng-click="modificar('formCerveza')" disabled>Editar</a>
+                                            <a href="#" id="btnEliminar" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Listado de Cervezas</h3>
+                                    <br>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Buscar Produccion" ng-model="buscar">
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+
+                                        <table class="table table-responsive table-hover table-striped table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="seleccionable">
+
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('codigo')"></a>
+                                                        <label>Codigo</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-codigo')"></a>
+
+                                                    </th>
+                                                    <th class="seleccionable">
+
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('nombre')"></a>
+                                                        <label>Nombre</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-nombre')"></a>
+
+                                                    </th>
+
+                                                    <th class="seleccionable">
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('descripcion')"></a>
+                                                        <label>Descripción</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-descripcion')"></a>
+                                                    </th>
+
+                                                    <th class="seleccionable">
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('porcentaje')"></a>
+                                                        <label>Porcentaje</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-porcentaje')"></a>
+
+
+                                                    </th>
+
+
+
+
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-click="mostrarCampos(obj.codigo)" ng-repeat="obj in cervezas| orderBy: ordenSeleccionado | filter:buscar">
+                                                    <td>{{obj.codigo| uppercase}}</td>
+                                                    <td>{{obj.nombre| uppercase}}</td>
+                                                    <td>{{obj.descripcion| uppercase}}</td>
+                                                    <td>{{obj.porcentaje| uppercase}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
                 
-                            <tbody>
-                                <tr ng-click="mostrarCampos(obj.codigo)" ng-repeat="obj in cervezas | 
-                                orderBy: ordenSeleccionado | filter:buscar">
-                                 <td>{{obj.codigo | uppercase}}</td>
-                                 <td>{{obj.nombre | uppercase}}</td>
-                                 <td>{{obj.descripcion | uppercase}}</td>
-                                 <td>{{obj.porcentaje | uppercase}}</td>
-                                  
-                            </tr>
-                            
-                            </tbody>
-                        </table>
-                    </div>
-        </div>
-</div>
-
-      </div>
 
 
 
-</div>
-
-</div>
+            </div>
 
 
-
-  </div>
+    </div>
+       
 
 
 
@@ -164,7 +167,5 @@
 
 
 
-
-
-</body>
+    </body>
 </html>

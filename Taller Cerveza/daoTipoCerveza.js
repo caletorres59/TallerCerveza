@@ -6,6 +6,10 @@ var mysql = require('mysql');
 var constantes = require('./constantes');
 function conectardb() {
 
+    console.log(constantes.host);
+    console.log(constantes.user);
+    console.log(constantes.pass);
+    console.log(constantes.database);
     //Se hace una conexion a la base de datos
     conexion = mysql.createConnection({
         host: constantes.host,
@@ -16,6 +20,7 @@ function conectardb() {
     //Se conecta a la base de datos
     conexion.connect(function (error) {
         if (error) {
+            console.log(error);
             console.log('Problemas de conexion con mysql');
         } else {
             console.log('Conexion exitosa');
@@ -43,15 +48,17 @@ function crear(respuesta) {
             ')';
 
     conexion.query(sql2, function (error, resultado) {
+        respuesta.writeHead(200, {'Content-Type': 'text/html'});
         if (error) {
             console.log(error);
+            respuesta.write(constantes.ERROR);
+        } else {
+            respuesta.write(constantes.OK);
         }
+        respuesta.end();
     });
     //Se construye la respuesta al cliente
-    respuesta.writeHead(200, {'Content-Type': 'text/html'});
-    respuesta.write('<!doctype html><html><head></head><body>' +
-            'Se creo la tabla<br><a href="index.html">Retornar</a></body></html>');
-    respuesta.end();
+
 }
 
 
@@ -62,16 +69,24 @@ function crear(respuesta) {
  * @returns {undefined}
  */
 function eliminarTipoCerveza(pedido, respuesta) {
-    var info = '';
+   
+   var info = '';
+
     pedido.on('data', function (datosparciales) {
         info += datosparciales;
     });
+
     pedido.on('end', function () {
+
         //Se obtiene el codigo
         var datos = querystring.parse(info);
-        var codigo = [datos['ID']];
+
+        var codigo = [datos['codigo']];
+        console.log(codigo+"ssdsds");
         //Se manda el codigo en la busqueda
-        var sql = 'delete from tiposcerveza where codigo= ?';
+
+        var sql = 'delete from tiposcerveza where ID=?';
+
         conexion.query(sql, codigo, function (error, filas) {
             if (error) {
                 console.log('error en la consulta');
@@ -82,10 +97,14 @@ function eliminarTipoCerveza(pedido, respuesta) {
             //Se lee el registro obtenido y se sacan sus datos
             var datos = '';
             if (filas.length > 0) {
-                datos += 'El articulo' + datos['codigo'] + ' fue eliminado correctamente';
+                datos += 'ok';
+            } else {
+                datos = 'error';
             }
+
             //Se responde
-            respuesta.write(datos);
+           
+            respuesta.write(datos);   
             respuesta.end();
         });
     });
@@ -106,25 +125,27 @@ function crearTipoCerveza(pedido, respuesta) {
     //Cuando termina de capturar y pasar los datos a JSON
     pedido.on('end', function () {
         var datos = querystring.parse(info);
+        console.log(datos);
         //Se crea un objeto con la informacion capturada
         var registro = {
-            NOMBRE: datos['ML'],
-            DESCRIPCION: datos['VALOR'],
-            GRADOALCOHOL: datos['GRADOALCOHOL']
+            NOMBRE: datos['nombre'],
+            DESCRIPCION: datos['descripcion'],
+            GRADOALCOHOL: datos['porcentaje']
         };
         var sql = 'insert into tiposcerveza set ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql, registro, function (error, resultado) {
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             if (error) {
                 console.log(error);
-                return;
+                respuesta.write(constantes.ERROR);
+            } else {
+                respuesta.write(constantes.OK);
             }
+            respuesta.end();
         });
         //Se responde al usuario
-        respuesta.writeHead(200, {'Content-Type': 'text/html'});
-        respuesta.write('<!doctype html><html><head></head><body>' +
-                'Guardado correctamente<br><a href="index.html">Retornar</a></body></html>');
-        respuesta.end();
+
     });
 }
 
@@ -134,25 +155,18 @@ function crearTipoCerveza(pedido, respuesta) {
  * @returns {undefined}
  */
 function listarTiposCerveza(respuesta) {
-    var sql = 'select ID,ML,VALOR from presentaciones';
+    var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza';
     //Se realiza la consulta, recibiendo por parametro filas los registros de la base de datos.         
     conexion.query(sql, function (error, filas) {
         if (error) {
-            console.log('error en el listado');
-            return;
+            console.log(error);
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+            respuesta.write(constantes.ERROR);
+        } else {
+            //Se responde
+            respuesta.writeHead(200, {'Content-Type': 'text/json'});
+            respuesta.write(JSON.stringify(filas));
         }
-        respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-        //Se recorren los registros obtenidos
-        var datos = '';
-        for (var f = 0; f < filas.length; f++) {
-            datos += filas[f].ID + ',';
-            datos += filas[f].NOMBRE + ',';
-            datos += filas[f].DESCRIPCION + ',';
-            datos += filas[f].GRADOALCOHOL + ';';
-        }
-
-        //Se responde
-        respuesta.write(datos.substring(0, datos.length - 1));
         respuesta.end();
     });
 }
@@ -171,24 +185,16 @@ function buscarTipoCerveza(pedido, respuesta) {
         //Se manda el codigo en la busqueda
         var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza where ID=?';
         conexion.query(sql, codigo, function (error, filas) {
-            if (error) {
-                console.log('error en la consulta');
-                return;
-            }
-            //Se responde
-            respuesta.writeHead(200, {'Content-Type': 'text/html'});
             //Se lee el registro obtenido y se sacan sus datos
-            var datos = '';
-            if (filas.length > 0) {
-                datos += filas[0].ID + ',';
-                datos += filas[0].NOMBRE + ',';
-                datos += filas[0].DESCRIPCION + ',';
-                datos += filas[0].GRADOALCOHOL;
+            if (error) {
+                console.log(error);
+                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+                respuesta.write(constantes.ERROR);
             } else {
-                datos = 'No existe un tipo cerveza con dicho codigo.';
+                //Se responde
+                respuesta.writeHead(200, {'Content-Type': 'text/json'});
+                respuesta.write(JSON.stringify(filas));
             }
-            //Se responde
-            respuesta.write(datos);
             respuesta.end();
         });
     });

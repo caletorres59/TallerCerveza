@@ -9,10 +9,13 @@ var app = angular.module("appControladorCerveza", []);
 /*$windows servicio por defecto para poder utilizar refresco de pagina y redireccionamiento*/
 /*logInService, nombre del servicio que contiene la promesa. */
 app.controller('CtlCerveza', function ($scope,cervezaService) {
+app.controller('CtlCerveza', function ($scope, cervezaService) {
 
     /*Se inicializa el modelo*/
     $scope.identificacion = "";
     $scope.cervezas = [];   
+    //$scope.identificacion = "";
+    $scope.cervezas = [];
 
     /*Se define una funcion en el controlador*/
     $scope.guardar = function (form) {
@@ -28,6 +31,7 @@ app.controller('CtlCerveza', function ($scope,cervezaService) {
         if (form) {
           
 
+
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
              cervezaService.guardar($scope.identificacion).then(function (response) {
@@ -37,60 +41,68 @@ app.controller('CtlCerveza', function ($scope,cervezaService) {
             // //      * asociados*/
               $scope.identificacion = "";
              });
+            cervezaService.guardar($scope.identificacion).then(function (response) {
+                // //     /*El resultado de la promesa se recibe por parametro*/
+                // //     //alert(response.usuario + " " + response.password);
+                // //     /*Solo con limpiar el objeto se limpian todos los input 
+                // //      * asociados*/
+                $scope.identificacion = "";
+                alert(response);
+            });
         } else {
             alert("Verifique los datos ingresados");
         }
     };
     //modificar////////////////////////////////////////////
-     $scope.modificar = function (form) {
+    $scope.modificar = function (form) {
         /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
          * promesas con el "then", que se ejecuta unicamente cuando se le retorna
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.nombre);
-         alert($scope.identificacion.descripcion);
-         alert($scope.identificacion.porcentaje);
+        alert($scope.identificacion.nombre);
+        alert($scope.identificacion.descripcion);
+        alert($scope.identificacion.porcentaje);
         /*Si el formulario esta bien validado*/
         if (form) {
-          
+
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
-             cervezaService.modificar($scope.identificacion).then(function (response) {
-            // //     /*El resultado de la promesa se recibe por parametro*/
-            // //     //alert(response.usuario + " " + response.password);
-            // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
-              $scope.identificacion = "";
-             });
+            cervezaService.modificar($scope.identificacion).then(function (response) {
+                // //     /*El resultado de la promesa se recibe por parametro*/
+                // //     //alert(response.usuario + " " + response.password);
+                // //     /*Solo con limpiar el objeto se limpian todos los input 
+                // //      * asociados*/
+                $scope.identificacion = "";
+            });
         } else {
             alert("Verifique los datos ingresados");
         }
     };
     ///Eliminar/////////////////////////////////////////////
-     $scope.eliminar = function (form) {
+    $scope.eliminar = function (form) {
         /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
          * promesas con el "then", que se ejecuta unicamente cuando se le retorna
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.nombre);
-         alert($scope.identificacion.descripcion);
-         alert($scope.identificacion.porcentaje);
+        alert($scope.identificacion.nombre);
+        alert($scope.identificacion.descripcion);
+        alert($scope.identificacion.porcentaje);
         /*Si el formulario esta bien validado*/
         if (form) {
-          
+
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
-             cervezaService.eliminar($scope.identificacion).then(function (response) {
-            // //     /*El resultado de la promesa se recibe por parametro*/
-            // //     //alert(response.usuario + " " + response.password);
-            // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
-              $scope.identificacion = "";
-             });
+            cervezaService.eliminar($scope.identificacion).then(function (response) {
+                // //     /*El resultado de la promesa se recibe por parametro*/
+                // //     //alert(response.usuario + " " + response.password);
+                // //     /*Solo con limpiar el objeto se limpian todos los input 
+                // //      * asociados*/
+                $scope.identificacion = "";
+            });
         } else {
             alert("Verifique los datos ingresados");
         }
@@ -103,58 +115,69 @@ app.controller('CtlCerveza', function ($scope,cervezaService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-        
-        /*Si el formulario esta bien validado*/
-      
-          
 
-            // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
-            //  * el cual esta asociado a los input*/
-             cervezaService.listar($scope.identificacion).then(function (response) {
+        /*Si el formulario esta bien validado*/
+
+
+
+        // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
+        //  * el cual esta asociado a los input*/
+        cervezaService.listar($scope.identificacion).then(function (response) {
             // //     /*El resultado de la promesa se recibe por parametro*/
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
-              $scope.identificacion = "";
-             });
-        
+            if(response.length > 0)
+            {
+                for (var i = 0;i < response.length; i++) 
+                    {
+                     $scope.cervezas.push({
+                            codigo: response[i].ID,
+                            nombre: response[i].NOMBRE,
+                            descripcion: response[i].DESCRIPCION,
+                            porcentaje: response[i].GRADOALCOHOL
+                            
+        });
+                    }
+                }else
+                {
+                     alert("No hay registros en la base de datos")
+                }
+           
+        });
+
     };
 
     //Ordenar Campos////////////////////////////////////////
-    $scope.ordenarPorParametro = function(tipo)
-            {
-                $scope.ordenSeleccionado = tipo;
-            };
+    $scope.ordenarPorParametro = function (tipo)
+    {
+        $scope.ordenSeleccionado = tipo;
+    };
     //Mostrar Campos
-    $scope.mostrarCampos  = function(codigo)
-            {
-                
-                var cervezasV = $scope.cervezas;
-                var cervesa;
-       angular.forEach(cervezasV, function (obj)
+    $scope.mostrarCampos = function (codigo)
+    {
+
+        var cervezasV = $scope.cervezas;
+        var cervesa;
+        angular.forEach(cervezasV, function (obj)
         {
+            alert(obj.codigo);
             if (obj.codigo === codigo)
             {
-
                 cervesa = obj;
-
-
             }
 
         });
-            //Seteo los campos
-            $scope.identificacion.codigo = cervesa.codigo;
-            $scope.identificacion.nombre = cervesa.opcion;
-            $scope.identificacion.descripcion = cervesa.descripcion;
-            $scope.identificacion.porcentaje = cervesa.porcentaje;
-            };
-
-            $scope.listar();
-
-
-
-
+        //Seteo los campos
+        $scope.identificacion = cervesa;
+        $('#btnEliminar').removeAttr('disabled');
+        $('#btnEditar').removeAttr('disabled');
+       
+    };
+    $scope.listar();
 });
+
+
 
 
 

@@ -18,20 +18,27 @@ var mime = require('mime');
  * repositorio */
 var dao = require('./dao');
 
+var daoTipoCerveza = require('./daoTipoCerveza');
+
 
 function configurarServidor() {
 
-    dao.conectardb();
+    daoTipoCerveza.conectardb();
 
     servidor = http.createServer(function (entrada, respuesta) {
 
         var ruta = definirRuta(entrada);
 
         switch (ruta) {
-            case 'static/creartabla':
+            case 'static/crearTipoCerveza':
             {
                 //Si se da en crear tabla
-                dao.crear(respuesta);
+                daoTipoCerveza.crearTipoCerveza(entrada, respuesta);
+                break;
+            }
+            case 'static/listarTiposCerveza':
+            {
+                daoTipoCerveza.listarTiposCerveza(respuesta);
                 break;
             }
             case 'static/alta':
@@ -53,7 +60,7 @@ function configurarServidor() {
                 dao.consulta(entrada, respuesta);
                 break;
             }
-             case 'static/eliminar':
+            case 'static/eliminar':
             {
                 //Si se da en consultar por codigo
                 dao.eliminar(entrada, respuesta);
