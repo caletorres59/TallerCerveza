@@ -50,11 +50,8 @@
             <div class="form-group">
               
                 <label for="sel1">Tipo de Cerveza:</label>
-                  <select class="form-control" id="sel1" ng-model="identificacion.selTipo">
-                                          <option>Poker</option>
-                                          <option>Aguila</option>
-                                          <option>Costeña</option>
-                                          <option>Club</option>
+                  <select class="form-control" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas">
+                  <option value="object:1">Seleccione</option>
                   </select>
 
 

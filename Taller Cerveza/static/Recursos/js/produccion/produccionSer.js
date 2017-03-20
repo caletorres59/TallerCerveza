@@ -128,4 +128,28 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
         /*Luego se retorna la promesa*/
         return promise;
     };
+
+    this.listarCervezas = function (identificacion)
+    {
+         alert("estoy en el servicio listar");
+        var promise = $http({
+            method: "post",
+            url: "/listarTiposCerveza",
+            data: $httpParamSerializerJQLike({
+            }),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function mySucces(response) {
+            /*Todos los datos se almacenan en .data*/            
+            return response.data;
+        }, function myError(response) {
+            alert("Error");
+            alert(response.statusText);
+        });
+
+        /*Luego se retorna la promesa*/
+        return promise;
+        
+    }; 
+
+
 });
