@@ -113,7 +113,6 @@ function crearPresentacion(pedido, respuesta) {
     //Cuando termina de capturar y pasar los datos a JSON
     pedido.on('end', function () {
         var datos = querystring.parse(info);
-        console.log(datos);
         //Se crea un objeto con la informacion capturada
         var registro = {
             ML: datos['cantidad'],
