@@ -37,7 +37,8 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/
-            return response.data;
+            console.log(response.data);
+            return response;
         }, function myError(response) {
             alert("Error");
             alert(response.statusText);
@@ -53,7 +54,7 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-
+        alert(codigo);
         var promise = $http({
             method: "post",
             url: "/eliminarPresentacion",
@@ -63,6 +64,7 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/
+            return response;
         }, function myError(response) {
             alert("Error");
         });
@@ -76,10 +78,10 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-        alert("estoy en el servicio modificar" + identificacion.nombre);
+        alert("estoy en el servicio modificar");
         var promise = $http({
             method: "post",
-            url: "/modificar",
+            url: "/updatePresentacion",
             data: $httpParamSerializerJQLike({
                 codigo: identificacion.codigo,
                 cantidad: identificacion.cantidad,
@@ -89,7 +91,8 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/
-            return response.data;
+
+            return response;
         }, function myError(response) {
             alert("Error");
             alert(response.statusText);

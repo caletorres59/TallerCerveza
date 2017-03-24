@@ -17,7 +17,7 @@
 	
 	<header>
          <nav class="navbar navbar-inverse">
-             <a href="index.html" class="navbar-brand">Taller Cerveza</a>
+             <a href="index.html" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Taller Cerveza</a>
          </nav>
     </header>
 
@@ -35,13 +35,15 @@
     
     <div class="panel panel-info">
         <div class="panel-heading">
-         <h3 class="panel-title">Gestión Producción</h3>
+         <h3 class="panel-title"><span class="glyphicon glyphicon-glass"></span> Gestión Producción</h3>
         </div>
       <div class="panel-body">
+       
         <form name="formProduccion" role="form">
               <div class="form-group">
-             
-              <input type="text"  class="form-control" id="codigo"  style="display: none;" ng-model="identificacion.codigo">
+
+              <label for="codigo">Codigo:</label>
+              <input type="text"  class="form-control" id="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo">
             </div>  
             <div class="form-group">
               <label for="fecha">Fecha:</label>
@@ -51,7 +53,7 @@
               
                 <label for="sel1">Tipo de Cerveza:</label>
                   <select class="form-control" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas">
-                  <option value="object:1">Seleccione</option>
+                  <option value="-1">Seleccione</option>
                   </select>
 
 
@@ -60,10 +62,8 @@
              <div class="form-group">
               
                 <label for="pre">Presentaciones:</label>
-                  <select class="form-control" id="sel1" ng-model="identificacion.selPresentacion">
-                                          <option>500 ml</option>
-                                          <option>100 ml</option>
-                                          <option>1500ml</option>
+                  <select class="form-control" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones">
+                         <option value="-1">Seleccione</option>                 
                                           
                   </select>
 
@@ -77,8 +77,8 @@
            
               <div class="btn-group btn-group-justified">
                 <a href="#" class="btn btn-success" ng-click="guardar('formPresentacion')">Guardar</a>
-                <a href="#" class="btn btn-warning" ng-click="modificar('formPresentacion')" disabled>Editar</a>
-                <a href="#" class="btn btn-danger" ng-click="eliminar('formPresentacion')" disabled>Eliminar</a>
+                <a href="#" class="btn btn-warning" id="btnEditar" ng-click="modificar('formPresentacion')" disabled>Editar</a>
+               
             </div>
             
      </form>
@@ -163,6 +163,7 @@
                                  <td>{{obj.tipo | uppercase}}</td>
                                  <td>{{obj.presentacion | uppercase}}</td>
                                  <td>{{obj.comentarios | uppercase}}</td>
+                                 <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
                                   
                             </tr>
                             

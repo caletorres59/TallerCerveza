@@ -17,7 +17,7 @@
 
             <header>
                 <nav class="navbar navbar-inverse">
-                    <a  href="index.html" class="navbar-brand">Taller Cerveza</a>
+                    <a  href="index.html" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Taller Cerveza</a>
                 </nav>
             </header>
 
@@ -35,25 +35,36 @@
 
                             <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Gestión Presentacion</h3>
+                                    <h3 class="panel-title"><span class="glyphicon glyphicon-glass"></span> Gestión Presentacion</h3>
                                 </div>
                                 <div class="panel-body">
+                               
                                     <form name="formPresentacion" role="form">
+
+
+                                 <div class="msgServidor">
+                                        
+                                </div>
+
+                                     <div ng-show="formPresentacion.nombre.$dirty">
+                                        <div ng-show="formPresentacion.cantidad.$error.required" class="alert alert-danger"
+                                         role="alert">El campo cantidad es Obligatorio</div>
+                                    </div>
                                         <div class="form-group">
 
-                                            <input type="text"  class="form-control" id="nombre"  style="display: none;" ng-model="identificacion.codigo">
+                                            <input type="text"  class="form-control" id="codigo"  style="display: none;" ng-model="identificacion.codigo">
                                         </div>  
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{'has-error' : formPresentacion.cantidad.$invalid,'has-success' : formPresentacion.cantidad.$valid}">
                                             <label for="cantidad">Cantidad (ML):</label>
-                                            <input type="text" class="form-control" id="cantidad"  placeholder="Cantidad" ng-model="identificacion.cantidad" required>
+                                            <input type="number" class="form-control" id="cantidad" name="cantidad"  placeholder="Cantidad" ng-model="identificacion.cantidad" min="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="precio">Precio:</label>
-                                            <input type="text" class="form-control" id="descripcion" placeholder="$precio"  ng-model="identificacion.precio">
+                                            <input type="number" class="form-control" step="any" name="precio" id="descripcion" placeholder="$precio" min="0"  ng-model="identificacion.precio">
                                         </div>
                                         <div class="btn-group btn-group-justified">
-                                            <a href="#" class="btn btn-success" ng-click="guardar('formPresentacion')">Guardar</a>
-                                            <a href="#" class="btn btn-warning" ng-click="modificar('formPresentacion')" disabled>Editar</a>
+                                            <a href="#" class="btn btn-success" ng-disabled="formPresentacion.$invalid" ng-click="guardar('formPresentacion.$valid')">Guardar</a>
+                                            <a href="#" id="btnEditar" class="btn btn-warning" ng-click="modificar('formPresentacion')" disabled>Editar</a>
                                         </div>
 
                                         <br>

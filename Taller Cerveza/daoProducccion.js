@@ -56,7 +56,7 @@ function crear(respuesta) {
 }
 
 /**
- * Función que elimina un tipo de cerveza
+ * Función que elimina una produccion
  * 
  * @param {type}
  *            pedido
@@ -96,7 +96,7 @@ function eliminarProduccion(pedido, respuesta) {
 }
 
 /**
- * Funcion que crea un tipo de cerveza
+ * Funcion que crea una produccion
  * 
  * @param {type}
  *            pedido
@@ -114,6 +114,8 @@ function crearProduccion(pedido, respuesta) {
 	// Cuando termina de capturar y pasar los datos a JSON
 	pedido.on('end', function() {
 		var datos = querystring.parse(info);
+
+		console.log("estoy en el crear" + datos['codigo']);
 		// Se crea un objeto con la informacion capturada
 		var registro = {
 			CODIGO : datos['codigo'],
@@ -122,7 +124,7 @@ function crearProduccion(pedido, respuesta) {
 			PRESENTACION : datos['presentacion'],
 			COMENTARIOS : datos['comentarios']
 		};
-		var sql = 'insert into presentaciones set ?';
+		var sql = 'insert into producciones set ?';
 		// Se hace un insert mandado el objet completo
 		conexion.query(sql, registro, function(error, resultado) {
 			respuesta.writeHead(200, {
@@ -130,9 +132,15 @@ function crearProduccion(pedido, respuesta) {
 			});
 			if (error) {
 				console.log(error);
-				respuesta.write(constantes.ERROR);
+				respuesta.writeHead(200, {
+				'Content-Type' : 'text/json'
+			});
+			respuesta.write(JSON.stringify(constantes.ERROR));
 			} else {
-				respuesta.write(constantes.OK);
+				respuesta.writeHead(200, {
+				'Content-Type' : 'text/json'
+			});
+			respuesta.write(JSON.stringify(constantes.OK));
 			}
 			respuesta.end();
 		});
@@ -148,7 +156,8 @@ function crearProduccion(pedido, respuesta) {
  * @returns {undefined}
  */
 function listarProducciones(respuesta) {
-	var sql = 'SELECT pr.CODIGO, pr.FECHA, tc.NOMBRE, p.ML, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
+
+	var sql = 'SELECT pr.CODIGO, pr.FECHA, tc.NOMBRE as NOMBRE, p.ML as CANTIDAD, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
 			+ 'FROM producciones pr JOIN tiposcerveza tc ON pr.TIPOCERVEZA = tc.ID '
 			+ 'JOIN presentaciones p ON pr.PRESENTACION = p.ID';
 	// Se realiza la consulta, recibiendo por parametro filas los registros de
@@ -156,16 +165,12 @@ function listarProducciones(respuesta) {
 	conexion.query(sql, function(error, filas) {
 		if (error) {
 			console.log(error);
-			respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-			});
-			respuesta.write(constantes.ERROR);
+			respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+            respuesta.write(constantes.ERROR);
 		} else {
 			// Se responde
-			respuesta.writeHead(200, {
-				'Content-Type' : 'text/json'
-			});
-			respuesta.write(JSON.stringify(filas));
+			respuesta.writeHead(200, {'Content-Type': 'text/json'});
+            respuesta.write(JSON.stringify(filas));
 		}
 		respuesta.end();
 	});
@@ -203,6 +208,49 @@ function buscarTipoCerveza(pedido, respuesta) {
 	});
 }
 
+function updateProduccion(pedido, respuesta) {
+ var info = '';
+    pedido.on('data', function (datosparciales) {
+        info += datosparciales;
+    });
+    //Cuando termina de capturar y pasar los datos a JSON
+    pedido.on('end', function () {
+        var datos = querystring.parse(info);
+        //Se crea un objeto con la informacion capturada
+        
+        var codigo = [datos['codigo']];
+
+        console.log(codigo);
+         var update = {
+			FECHA : datos['fecha'],
+			TIPOCERVEZA : datos['tipo'],
+			PRESENTACION : datos['presentacion'],
+			COMENTARIOS : datos['comentarios']
+        };
+       
+        var sql = 'update producciones set ? where CODIGO = ?';
+        //Se hace un insert mandado el objet completo
+        conexion.query(sql,[update,codigo], function (error, resultado) {
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+                if (error) {
+                console.log(error);
+                respuesta.writeHead(200, {
+                'Content-Type' : 'text/plain'
+            });
+            respuesta.write(constantes.ERROR);
+            } else {
+                respuesta.writeHead(200, {
+                'Content-Type' : 'text/plain'
+            });
+            respuesta.write(constantes.OK);
+            }
+            respuesta.end();
+        });
+
+    });
+   
+}
+
 // Habilita a las funciones para que sean llamadas o exportadas desde otros
 // archivos
 exports.conectardb = conectardb;
@@ -210,3 +258,4 @@ exports.crearProduccion = crearProduccion;
 exports.buscarTipoCerveza = buscarTipoCerveza;
 exports.listarProducciones = listarProducciones;
 exports.eliminarProduccion = eliminarProduccion;
+exports.updateProduccion = updateProduccion;

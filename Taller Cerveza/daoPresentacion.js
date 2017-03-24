@@ -85,16 +85,58 @@ function eliminarPresentacion(pedido, respuesta) {
         //Se manda el codigo en la busqueda
         var sql = 'delete from presentaciones where ID = ?';
         conexion.query(sql, codigo, function (error, filas) {
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             if (error) {
                 console.log(error);
+                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
                 respuesta.write(constantes.ERROR);
             } else {
+                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
                 respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
     });
+}
+
+/**
+ * Función que modifica una presentacion
+ * @param {type} pedido
+ * @param {type} respuesta
+ * @returns {undefined}
+ */
+function updatePresentacion(pedido, respuesta) {
+ var info = '';
+    pedido.on('data', function (datosparciales) {
+        info += datosparciales;
+    });
+    //Cuando termina de capturar y pasar los datos a JSON
+    pedido.on('end', function () {
+        var datos = querystring.parse(info);
+        //Se crea un objeto con la informacion capturada
+        
+        var codigo = [datos['codigo']];
+       
+        var update = {
+            ML: datos['cantidad'],
+            VALOR: datos['precio']
+        };
+        var sql = 'update presentaciones set ? where ID = ?';
+        //Se hace un insert mandado el objet completo
+        conexion.query(sql,[update,codigo], function (error, resultado) {
+            
+            if (error) {
+                console.log(error);
+                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+                respuesta.write(constantes.ERROR);
+            } else {
+                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+                respuesta.write(constantes.OK);
+            }
+            respuesta.end();
+        });
+
+    });
+   
 }
 
 /**
@@ -121,12 +163,20 @@ function crearPresentacion(pedido, respuesta) {
         var sql = 'insert into presentaciones set ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql, registro, function (error, resultado) {
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+           
             if (error) {
                 console.log(error);
-                respuesta.write(constantes.ERROR);
+                console.log(error);
+                respuesta.writeHead(200, {
+                'Content-Type' : 'text/plain'
+            });
+            respuesta.write(constantes.ERROR);
             } else {
-                respuesta.write(constantes.OK);
+                 console.log(error);
+                respuesta.writeHead(200, {
+                'Content-Type' : 'text/plain'
+            });
+            respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
@@ -191,3 +241,4 @@ exports.crearPresentacion = crearPresentacion;
 exports.buscarTipoCerveza = buscarTipoCerveza;
 exports.listarPresentaciones = listarPresentaciones;
 exports.eliminarPresentacion = eliminarPresentacion;
+exports.updatePresentacion = updatePresentacion;

@@ -14,6 +14,8 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
     $scope.identificacion = "";
     $scope.producciones = []; 
     $scope.cervezas = []; 
+    $scope.presentaciones = []; 
+    var msg = "";
 
     /*Se define una funcion en el controlador*/
     $scope.guardar = function (form) {
@@ -22,11 +24,11 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.codigo);
-         alert($scope.identificacion.fecha);
-         alert($scope.identificacion.selTipo.codigo);
-        alert($scope.identificacion.selPresentacion);
-        alert($scope.identificacion.comentarios);
+        
+        //  alert($scope.identificacion.fecha);
+        //  alert($scope.identificacion.selTipo.codigo);
+        // alert($scope.identificacion.selPresentacion.codigo);
+        // alert($scope.identificacion.comentarios);
         /*Si el formulario esta bien validado*/
         if (form) {
           
@@ -34,10 +36,18 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
              produccionService.guardar($scope.identificacion).then(function (response) {
-            // //     /*El resultado de la promesa se recibe por parametro*/
-            // //     //alert(response.usuario + " " + response.password);
-            // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
+                alert(response);
+
+               if(response.OK == "OK")
+               {
+                alert("El usuario fue guardado correctamente");
+               }else
+               {
+                alert("no se pudo guardar el usuario");
+               }
+                // $('#msgconfirmar').html("<h1 class='bg-success'>La producción fue guardada</h2>");
+                // setTimeout(function(){ $('#msgconfirmar').addATTr ; }, 3000);
+           
               $scope.identificacion = "";
              });
         } else {
@@ -51,11 +61,6 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.ID);
-         alert($scope.identificacion.fecha);
-         alert($scope.identificacion.selTipo.Id);
-         alert($scope.identificacion.selTipo.codigo);
-         alert($scope.identificacion.selPresentacion);
         /*Si el formulario esta bien validado*/
         if (form) {
           
@@ -67,6 +72,7 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
+              alert(response.data);
               $scope.identificacion = "";
              });
         } else {
@@ -74,32 +80,26 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
         }
     };
     ///Eliminar/////////////////////////////////////////////
-     $scope.eliminar = function (form) {
+     $scope.eliminar = function (codigo) {
         /*Al ser el servicio la llamada por http (funcion asincrona) toca definir
          * promesas con el "then", que se ejecuta unicamente cuando se le retorna
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         alert($scope.identificacion.codigo);
-         alert($scope.identificacion.fecha);
-         alert($scope.identificacion.selTipo);
-         alert($scope.identificacion.selPresentacion);
         /*Si el formulario esta bien validado*/
-        if (form) {
+        
           
-
+            
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
-             produccionService.eliminar($scope.identificacion).then(function (response) {
+             produccionService.eliminar(codigo).then(function (response) {
             // //     /*El resultado de la promesa se recibe por parametro*/
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
               $scope.identificacion = "";
              });
-        } else {
-            alert("Verifique los datos ingresados");
-        }
+        
     };
 
     //listar//////////////////////////////////////////
@@ -120,7 +120,28 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // //     /*El resultado de la promesa se recibe por parametro*/
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
+            //    * asociados*/
+             if (response.length > 0)
+
+            {
+                
+                for (var i = 0; i < response.length; i++)
+                {
+
+                    $scope.producciones.push({
+                        codigo: response[i].CODIGO,
+                        fecha: response[i].FECHA,
+                        tipo: response[i].NOMBRE,
+                        presentacion: response[i].CANTIDAD,
+                        comentarios: response[i].COMENTARIOS
+
+                    });
+                }
+            } else
+            {
+                alert("No hay registros en la base de datos");
+            }
+            
               $scope.identificacion = "";
              });
         
@@ -184,7 +205,7 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
-             produccionService.listarCervezas($scope.identificacion).then(function (response) {
+             produccionService.listarPresentaciones($scope.identificacion).then(function (response) {
             // //     /*El resultado de la promesa se recibe por parametro*/
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
@@ -192,11 +213,11 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             {
                 for (var i = 0; i < response.length; i++)
                 {
-                    $scope.cervezas.push({
+                    $scope.presentaciones.push({
                         codigo: response[i].ID,
-                        nombre: response[i].NOMBRE,
-                        descripcion: response[i].DESCRIPCION,
-                        porcentaje: response[i].GRADOALCOHOL
+                        cantidad: response[i].ML,
+                        precio: response[i].VALOR
+                      
 
                     });
                 }
@@ -234,15 +255,17 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
 
         });
             //Seteo los campos
-            $scope.identificacion.codigo = produccion.codigo;
-            $scope.identificacion.fecha = produccion.fecha;
-            $scope.identificacion.selTipo = produccion.tipo;
-            $scope.identificacion.selPresentacion = produccion.presentacion;
-            $scope.identificacion.comentarios = produccion.comentarios;
+          // alert(produccion.tipo.nombre);
+            $scope.identificacion = produccion;
+            $('#btnEditar').removeAttr('disabled');
+            $('#codigoPro').prop('disabled', true);
+
             };
 
 
                 $scope.listarCervezas();
+                $scope.listarPresentaciones();
+                $scope.listar();
 
 });
 

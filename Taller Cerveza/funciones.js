@@ -20,13 +20,13 @@ var dao = require('./dao');
 
 var daoTipoCerveza = require('./daoTipoCerveza');
 var daoPresentacion = require('./daoPresentacion');
-
+var daoProduccion = require('./daoProducccion');
 
 function configurarServidor() {
 
     daoTipoCerveza.conectardb();
     daoPresentacion.conectardb();
-
+    daoProduccion.conectardb();
 
     servidor = http.createServer(function (entrada, respuesta) {
 
@@ -49,6 +49,12 @@ function configurarServidor() {
                 daoTipoCerveza.eliminarTipoCerveza(entrada, respuesta);
                 break;
             }
+            case 'static/updateCervezas':
+            {
+                daoTipoCerveza.updateCervezas(entrada, respuesta);
+                break;
+            }
+            
             case 'static/listarPresentaciones':
             {
                 daoPresentacion.listarPresentaciones(respuesta);
@@ -59,11 +65,45 @@ function configurarServidor() {
                 daoPresentacion.crearPresentacion(entrada, respuesta);
                 break;
             }
-            case 'static/eliminarPresentacion':
+            
+            case 'static/updatePresentacion':
+            {
+                daoPresentacion.updatePresentacion(entrada, respuesta);
+                break;
+            }
+            updatePresentacion
+
+            case 'static/guardarProduccion':
+            {
+                daoProduccion.crearProduccion(entrada, respuesta);
+                break;
+            }
+            case 'static/listarProducciones':
+            {
+                daoProduccion.listarProducciones(respuesta);
+                break;
+            }
+             case 'static/eliminarProduccion':
+            {
+                daoProduccion.eliminarProduccion(entrada, respuesta);
+                break;
+            }
+              case 'static/eliminarPresentacion':
             {
                 daoPresentacion.eliminarPresentacion(entrada, respuesta);
                 break;
             }
+            case 'static/updateProduccion':
+            {
+                daoProduccion.updateProduccion(entrada, respuesta);
+                break;
+            }
+
+
+
+
+
+
             default:
             {
                 //Validamos si la pagina solicitada existe

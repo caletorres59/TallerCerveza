@@ -31,12 +31,25 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
                 // //     //alert(response.usuario + " " + response.password);
                 // //     /*Solo con limpiar el objeto se limpian todos los input 
                 // //      * asociados*/
-                $scope.identificacion = "";
+                alert(response);
+                if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>El tipo de cerveza fue registrado <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error en el registro <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                }
+                
+                 $scope.identificacion = "";
+
             });
         } else {
             alert("Verifique los datos ingresados");
         }
-        $scope.listar();
+       
     };
     //modificar////////////////////////////////////////////
     $scope.modificar = function (form) {
@@ -45,9 +58,6 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-        alert($scope.identificacion.nombre);
-        alert($scope.identificacion.descripcion);
-        alert($scope.identificacion.porcentaje);
         /*Si el formulario esta bien validado*/
         if (form) {
 
@@ -59,6 +69,16 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
                 // //     //alert(response.usuario + " " + response.password);
                 // //     /*Solo con limpiar el objeto se limpian todos los input 
                 // //      * asociados*/
+                if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>El tipo de cerveza fue modificado <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al modificar <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                }
                 $scope.identificacion = "";
             });
         } else {
@@ -74,9 +94,22 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
-            return response;
+            alert(response);
+            if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>El tipo de cerveza fue eliminado  <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al eliminar <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){  $(".msgServidor").attr("display","none"); }, 5000);
+                }
+            
+             $scope.identificacion = "";
+             $scope.listar();
         });
-        $scope.listar();
+       
     };
 
     //listar//////////////////////////////////////////
@@ -103,7 +136,8 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
                 }
             } else
             {
-                alert("No hay registros en la base de datos");
+                $('.msgServidor').html("<div id='msg' class='alert alert-danger'>No hay registros de tipos de cerveza <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('.msgServidor').attr("display","none"); }, 5000);
             }
 
         });
@@ -130,8 +164,8 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
         });
         //Seteo los campos
         $scope.identificacion = cervesa;
-        $('#btnEliminar').removeAttr('disabled');
         $('#btnEditar').removeAttr('disabled');
+       
 
     };
     $scope.listar();

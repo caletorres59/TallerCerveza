@@ -37,11 +37,11 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/
-            alert(response.data);
+            
             return response.data;
         }, function myError(response) {
             alert("Error");
-            alert(response.statusText);
+           alert(reponse);
         });
 
         /*Luego se retorna la promesa*/
@@ -63,8 +63,10 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
             /*Todos los datos se almacenan en .data*/
+            return response.data;
         }, function myError(response) {
             alert("Error");
+            return response.data;
         });
 
         /*Luego se retorna la promesa*/
@@ -76,11 +78,12 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-        alert("estoy en el servicio modificar" + identificacion.nombre);
+       
         var promise = $http({
             method: "post",
-            url: "/modificar",
+            url: "/updateCervezas",
             data: $httpParamSerializerJQLike({
+                codigo: identificacion.codigo,
                 nombre: identificacion.nombre,
                 descripcion: identificacion.descripcion,
                 porcentaje: identificacion.porcentaje
