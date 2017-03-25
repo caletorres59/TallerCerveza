@@ -53,16 +53,20 @@
               <div class="form-group" ng-class="{'has-error' : formProduccion.codigoPro.$invalid,'has-success' : formProduccion.codigoPro}">
 
               <label for="codigoPro">Codigo:</label>
-              <input type="text"  class="form-control" id="codigoPro" name="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo" required>
+              <input type="text"   class="form-control" id="codigoPro" name="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo" required>
             </div>  
-            <div class="form-group">
+             <div ng-show="formProduccion.fecha.$dirty">
+                                        <div ng-show="formProduccion.fecha.$error.required" class="alert alert-danger"
+                                         role="alert">El campo fecha es Obligatorio</div>
+                                    </div>
+            <div class="form-group" ng-class="{'has-error' : formProduccion.fecha.$invalid,'has-success' : formProduccion.fecha}">
               <label for="fecha">Fecha:</label>
-              <input type="date" class="form-control" id="fecha"  ng-model="identificacion.fecha" required>
+              <input type="date" name="fecha" class="form-control" id="fecha"  ng-model="identificacion.fecha" required>
             </div>
             <div class="form-group">
               
                 <label for="sel1">Tipo de Cerveza:</label>
-                  <select class="form-control" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas">
+                  <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas" required>
                   <option value="-1">Seleccione</option>
                   </select>
 
@@ -72,7 +76,7 @@
              <div class="form-group">
               
                 <label for="pre">Presentaciones:</label>
-                  <select class="form-control" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones">
+                  <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones" required>
                          <option value="-1">Seleccione</option>                 
                                           
                   </select>
@@ -82,7 +86,7 @@
 
             <div class="form-group">
                           <label for="comment">Comentarios Producción:</label>
-                          <textarea class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment"></textarea>
+                          <textarea class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment" required></textarea>
             </div>
            
               <div class="btn-group btn-group-justified">

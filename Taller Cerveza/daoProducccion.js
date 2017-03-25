@@ -85,13 +85,16 @@ function eliminarProduccion(pedido, respuesta) {
 		// Se manda el codigo en la busqueda
 		var sql = 'delete from producciones where CODIGO = ?';
 		conexion.query(sql, codigo, function(error, filas) {
-			respuesta.writeHead(200, {
+			
+			if (error) {
+				respuesta.writeHead(200, {
 				'Content-Type' : 'text/plain'
 			});
-			if (error) {
-				console.log(error);
 				respuesta.write(constantes.ERROR);
 			} else {
+				respuesta.writeHead(200, {
+				'Content-Type' : 'text/plain'
+			});
 				respuesta.write(constantes.OK);
 			}
 			respuesta.end();
@@ -232,7 +235,7 @@ function updateProduccion(pedido, respuesta) {
         var sql = 'update producciones set ? where CODIGO = ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql,[update,codigo], function (error, resultado) {
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+           
                 if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {

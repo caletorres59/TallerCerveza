@@ -76,6 +76,16 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
+             if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>La produccion fue modificada <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al modificar <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                }
               alert(response.data);
               $scope.identificacion = "";
              });
@@ -101,6 +111,16 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
+            if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>La produccion fue eliminada  <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al eliminar <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){  $(".msgServidor").attr("display","none"); }, 5000);
+                }
               $scope.identificacion = "";
              });
         
