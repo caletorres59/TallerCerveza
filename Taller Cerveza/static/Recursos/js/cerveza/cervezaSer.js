@@ -41,7 +41,6 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
             return response.data;
         }, function myError(response) {
             alert("Error");
-           alert(reponse);
         });
 
         /*Luego se retorna la promesa*/

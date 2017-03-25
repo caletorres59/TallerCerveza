@@ -12,6 +12,8 @@ var conexion;
 //y no solo a los 6 que se habian especificado
 var mime = require('mime');
 
+var formidable = require('formidable');
+
 
 /*Con el ./ se indica que el archivo que se va a necesitar se encuentra en la 
  * misma carpeta, ademas cuando no se coloca esto NODE busca en su nucleo dicho
@@ -54,7 +56,7 @@ function configurarServidor() {
                 daoTipoCerveza.updateCervezas(entrada, respuesta);
                 break;
             }
-            
+
             case 'static/listarPresentaciones':
             {
                 daoPresentacion.listarPresentaciones(respuesta);
@@ -65,14 +67,12 @@ function configurarServidor() {
                 daoPresentacion.crearPresentacion(entrada, respuesta);
                 break;
             }
-            
+
             case 'static/updatePresentacion':
             {
                 daoPresentacion.updatePresentacion(entrada, respuesta);
                 break;
             }
-            updatePresentacion
-
             case 'static/guardarProduccion':
             {
                 daoProduccion.crearProduccion(entrada, respuesta);
@@ -83,12 +83,12 @@ function configurarServidor() {
                 daoProduccion.listarProducciones(respuesta);
                 break;
             }
-             case 'static/eliminarProduccion':
+            case 'static/eliminarProduccion':
             {
                 daoProduccion.eliminarProduccion(entrada, respuesta);
                 break;
             }
-              case 'static/eliminarPresentacion':
+            case 'static/eliminarPresentacion':
             {
                 daoPresentacion.eliminarPresentacion(entrada, respuesta);
                 break;
@@ -98,12 +98,11 @@ function configurarServidor() {
                 daoProduccion.updateProduccion(entrada, respuesta);
                 break;
             }
-
-
-
-
-
-
+            case 'static/subirArchivo':
+            {
+                subirArchivo(entrada, respuesta);
+                break;
+            }
             default:
             {
                 //Validamos si la pagina solicitada existe
@@ -143,7 +142,19 @@ function definirRuta(entrada) {
     return ruta;
 }
 
+function subirArchivo(pedido, respuesta) {
+    var entrada = new formidable.IncomingForm();
+    entrada.uploadDir = 'upload';
+    entrada.parse(pedido);
+    entrada.on('fileBegin', function (field, file) {
+        file.path = "./static/Recursos/img/descarga.jfif";
+    });
+    entrada.on('end', function () {
+        respuesta.writeHead(301, {Location: 'http://localhost:8888/'});
+        respuesta.end();
+    });
 
+}
 
 
 function cargarPagina(ruta, respuesta) {

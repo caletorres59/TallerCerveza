@@ -50,21 +50,19 @@ function crear(respuesta) {
     conexion.query(sql2, function (error, resultado) {
         respuesta.writeHead(200, {'Content-Type': 'text/html'});
         if (error) {
-                console.log(error);
-                respuesta.writeHead(200, {
-                'Content-Type' : 'text/json'
+            console.log(error);
+            respuesta.writeHead(200, {
+                'Content-Type': 'text/json'
             });
             respuesta.write(JSON.stringify(constantes.ERROR));
-            } else {
-                respuesta.writeHead(200, {
-                'Content-Type' : 'text/json'
+        } else {
+            respuesta.writeHead(200, {
+                'Content-Type': 'text/json'
             });
             respuesta.write(JSON.stringify(constantes.OK));
-            }
-            respuesta.end();
+        }
+        respuesta.end();
     });
-    //Se construye la respuesta al cliente
-
 }
 
 
@@ -75,8 +73,8 @@ function crear(respuesta) {
  * @returns {undefined}
  */
 function eliminarTipoCerveza(pedido, respuesta) {
-   
-   var info = '';
+
+    var info = '';
 
     pedido.on('data', function (datosparciales) {
         info += datosparciales;
@@ -88,22 +86,22 @@ function eliminarTipoCerveza(pedido, respuesta) {
         var datos = querystring.parse(info);
 
         var codigo = [datos['codigo']];
-       
+
         //Se manda el codigo en la busqueda
         var sql = 'delete from tiposcerveza where ID = ?';
         conexion.query(sql, codigo, function (error) {
             respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                if (error) {
+            if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.ERROR);
-            } else{
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.ERROR);
+            } else {
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.OK);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
@@ -135,18 +133,18 @@ function crearTipoCerveza(pedido, respuesta) {
         var sql = 'insert into tiposcerveza set ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql, registro, function (error, resultado) {
-           
+
             if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.ERROR);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.ERROR);
             } else {
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.OK);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
@@ -184,7 +182,7 @@ function listarTiposCerveza(respuesta) {
  * @returns {undefined}
  */
 function updateCervezas(pedido, respuesta) {
- var info = '';
+    var info = '';
     pedido.on('data', function (datosparciales) {
         info += datosparciales;
     });
@@ -192,37 +190,37 @@ function updateCervezas(pedido, respuesta) {
     pedido.on('end', function () {
         var datos = querystring.parse(info);
         //Se crea un objeto con la informacion capturada
-        
+
         var codigo = [datos['codigo']];
 
         console.log(codigo);
-         var update = {
+        var update = {
             NOMBRE: datos['nombre'],
             DESCRIPCION: datos['descripcion'],
             GRADOALCOHOL: datos['porcentaje']
         };
-       
+
         var sql = 'update tiposcerveza set ? where ID = ?';
         //Se hace un insert mandado el objet completo
-        conexion.query(sql,[update,codigo], function (error, resultado) {
+        conexion.query(sql, [update, codigo], function (error, resultado) {
             respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                if (error) {
+            if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.ERROR);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.ERROR);
             } else {
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.OK);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
 
     });
-   
+
 }
 
 
@@ -243,9 +241,9 @@ function buscarTipoCerveza(pedido, respuesta) {
             if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/json'
-            });
-            respuesta.write(JSON.stringify(constantes.ERROR));
+                    'Content-Type': 'text/json'
+                });
+                respuesta.write(JSON.stringify(constantes.ERROR));
             } else {
                 //Se responde
                 respuesta.writeHead(200, {'Content-Type': 'text/json'});

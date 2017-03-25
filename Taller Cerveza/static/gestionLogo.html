@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Logo</title>
-	<link rel="stylesheet" type="text/css" href="Recursos\bower_components\bootstrap\dist\css\bootstrap.css">
-	 <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
+    <head>
+        <title>Logo</title>
+        <link rel="stylesheet" type="text/css" href="Recursos\bower_components\bootstrap\dist\css\bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
         <script type="text/javascript" src="Recursos\bower_components\jquery\dist\jquery.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\angular\angular.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\bootstrap\dist\js\bootstrap.js"></script>
@@ -11,60 +11,58 @@
 
         <script type="text/javascript" src="Recursos/js/logo/logoCtl.js"></script>
         <script type="text/javascript" src="Recursos/js/logo/logoSer.js"></script>
-</head>
-<body ng-app="appControladorLogo">
+    </head>
+    <body ng-app="appControladorLogo">
 
- <div class="container-fluid">
-    <header>
-         <nav class="navbar navbar-inverse">
-             <a href="index.html" class="navbar-brand text-center">Taller Cerveza</a>
-         </nav>
-    </header>
-    <div class="container">
-    	
- <div class="row">
-        
-    <div class="col-md-4">
-        
-        <img src="Recursos/img/descarga.jfif" alt="" class="img-circle img-responsive center-block">
-    </div>
+        <div class="container-fluid">
+            <header>
+                <nav class="navbar navbar-inverse">
+                    <a href="index.html" class="navbar-brand text-center">Taller Cerveza</a>
+                </nav>
+            </header>
+            <div class="container">
 
-     <div class="col-md-8">
-        <div class="panel-group">
-                 <div class="panel panel-default">
-                     <div class="panel-body"><h2 class=" text-center"> 
-                     <span class="glyphicon glyphicon-glass"></span> Gestión Logo</h2></div>
-                </div> 
-                 <div class="panel panel-primary">
-                 <div class="panel-body">
+                <div class="row">
 
-                 <form ng-controller="CtlLogo" name="formLogo"  enctype="multipart/form-data">
+                    <div class="col-md-4">
 
-					<label>Seleccione el logo:</label><br>
+                        <img src="Recursos/img/descarga.jfif" alt="" style="height: 200px;" class="img-circle img-responsive center-block">
+                    </div>
 
-					<input type="file" ng-model="identificacion.logo" class="form-control" name="foto1">
-						<br>
-		<br>
-		<a href="#" class="btn btn-success" class="form-control" ng-click="guardar('formLogo')">Cambiar Logo</a>
-			
-		</form>
-                     <!--  <ul class="list-group">
-         
-                         <li class="list-group-item list-group-item-success"><a href="gestionCerveza.html" class="list-group-item list-group-item-success">Upload Logos</a></li>
-                         <li class="list-group-item list-group-item-info"><a href="gestionPresentacion.html" class="list-group-item list-group-item-info">Listado de los logos</a></li>
-                     </ul> -->
-                 </div>
+                    <div class="col-md-8">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body"><h2 class=" text-center"> 
+                                        <span class="glyphicon glyphicon-glass"></span> Gestión Logo</h2></div>
+                            </div> 
+                            <div class="panel panel-primary">
+                                <div class="panel-body">
+
+                                    <form method="post" name="formLogo"  action="/subirArchivo" enctype="multipart/form-data">
+
+                                        <label>Seleccione el logo:</label><br>
+                                        <input type="file" class="" name="Logo" accept=".jpeg, .jpg, .png">
+                                        <br>
+                                        <input type="submit" value="Cambiar Logo" class="btn-success">
+
+                                    </form>
+                                    <!--  <ul class="list-group">
+                        
+                                        <li class="list-group-item list-group-item-success"><a href="gestionCerveza.html" class="list-group-item list-group-item-success">Upload Logos</a></li>
+                                        <li class="list-group-item list-group-item-info"><a href="gestionPresentacion.html" class="list-group-item list-group-item-info">Listado de los logos</a></li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
                 </div>
-     </div>
-    
 
-     </div>
+            </div>
 
-    </div>
-   
-    </div>
+        </div>
 
-    </div>
-
-</body>
+    </body>
 </html>
