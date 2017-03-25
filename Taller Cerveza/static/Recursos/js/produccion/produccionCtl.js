@@ -37,14 +37,18 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             //  * el cual esta asociado a los input*/
              produccionService.guardar($scope.identificacion).then(function (response) {
                 alert(response);
-
-               if(response.OK == "OK")
-               {
-                alert("El usuario fue guardado correctamente");
-               }else
-               {
-                alert("no se pudo guardar el usuario");
-               }
+                alert(response.OK);
+                
+                if(response == "OK")
+                {
+                  
+                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>El tipo de cerveza fue registrado <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                 
+                }else{
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error en el registro <span class='glyphicon glyphicon-ok'></span></div>");
+                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                }
                 // $('#msgconfirmar').html("<h1 class='bg-success'>La producción fue guardada</h2>");
                 // setTimeout(function(){ $('#msgconfirmar').addATTr ; }, 3000);
            

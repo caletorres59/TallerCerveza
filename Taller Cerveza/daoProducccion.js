@@ -40,13 +40,17 @@ function crear(respuesta) {
 			+ 'descripcion varchar(50),' + 'precio float' + ')';
 
 	conexion.query(sql2, function(error, resultado) {
-		respuesta.writeHead(200, {
-			'Content-Type' : 'text/html'
-		});
+		
 		if (error) {
 			console.log(error);
+			respuesta.writeHead(200, {
+			'Content-Type' : 'text/plain'
+		});
 			respuesta.write(constantes.ERROR);
 		} else {
+			respuesta.writeHead(200, {
+			'Content-Type' : 'text/plain'
+		});
 			respuesta.write(constantes.OK);
 		}
 		respuesta.end();
@@ -127,20 +131,17 @@ function crearProduccion(pedido, respuesta) {
 		var sql = 'insert into producciones set ?';
 		// Se hace un insert mandado el objet completo
 		conexion.query(sql, registro, function(error, resultado) {
-			respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-			});
 			if (error) {
 				console.log(error);
 				respuesta.writeHead(200, {
-				'Content-Type' : 'text/json'
-			});
-			respuesta.write(JSON.stringify(constantes.ERROR));
+				'Content-Type' : 'text/plain'
+				});
+			respuesta.write(constantes.ERROR);
 			} else {
 				respuesta.writeHead(200, {
-				'Content-Type' : 'text/json'
+				'Content-Type' : 'text/plain'
 			});
-			respuesta.write(JSON.stringify(constantes.OK));
+			respuesta.write(constantes.OK);
 			}
 			respuesta.end();
 		});
