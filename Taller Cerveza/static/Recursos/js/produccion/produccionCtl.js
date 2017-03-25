@@ -76,7 +76,8 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             // //      * asociados*/
-             if(response == "OK")
+            alert(response.data);
+             if(response.data == "OK")
                 {
                   
                   $('.msgServidor').html("<div id='msg' class='alert alert-success'>La produccion fue modificada <span class='glyphicon glyphicon-ok'></span></div>");
@@ -86,7 +87,7 @@ app.controller('CtlProduccion', function ($scope,produccionService) {
                     $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al modificar <span class='glyphicon glyphicon-ok'></span></div>");
                   setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
                 }
-              alert(response.data);
+              
               $scope.identificacion = "";
              });
         } else {
