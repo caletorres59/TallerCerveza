@@ -50,7 +50,7 @@
                                         <div ng-show="formProduccion.codigoPro.$error.required" class="alert alert-danger"
                                          role="alert">El campo codigo es Obligatorio</div>
                                     </div>
-              <div class="form-group" ng-class="{'has-error' : formProduccion.codigoPro.$invalid,'has-success' : formProduccion.codigoPro}">
+              <div class="form-group" ng-class="{'has-error' : formProduccion.codigoPro.$invalid,'has-success' : formProduccion.codigoPro.$valid}">
 
               <label for="codigoPro">Codigo:</label>
               <input type="text"   class="form-control" id="codigoPro" name="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo" required>
@@ -59,11 +59,16 @@
                                         <div ng-show="formProduccion.fecha.$error.required" class="alert alert-danger"
                                          role="alert">El campo fecha es Obligatorio</div>
                                     </div>
-            <div class="form-group" ng-class="{'has-error' : formProduccion.fecha.$invalid,'has-success' : formProduccion.fecha}">
+            <div class="form-group" ng-class="{'has-error' : formProduccion.fecha.$invalid,'has-success' : formProduccion.fecha.$valid}">
               <label for="fecha">Fecha:</label>
               <input type="date" name="fecha" class="form-control" id="fecha"  ng-model="identificacion.fecha" required>
             </div>
-            <div class="form-group">
+
+            <div ng-show="formProduccion.tipo.$dirty">
+                                        <div ng-show="formProduccion.tipo.$error.required" class="alert alert-danger"
+                                         role="alert">Selecciones un tipo</div>
+                                    </div>
+            <div class="form-group" ng-class="{'has-error' : formProduccion.tipo.$invalid,'has-success' : formProduccion.tipo.$valid}">
               
                 <label for="sel1">Tipo de Cerveza:</label>
                   <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas" required>
@@ -72,8 +77,13 @@
 
 
             </div>
+            <div ng-show="formProduccion.presentacion.$dirty">
+                                        <div ng-show="formProduccion.presentacion.$error.required" class="alert alert-danger"
+                                         role="alert">Selecciones una presentacion</div>
+                                    </div>
 
-             <div class="form-group">
+
+             <div class="form-group" ng-class="{'has-error' : formProduccion.presentacion.$invalid,'has-success' : formProduccion.presentacion.$valid}">
               
                 <label for="pre">Presentaciones:</label>
                   <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones" required>
@@ -84,13 +94,18 @@
               
             </div>
 
-            <div class="form-group">
+              <div ng-show="formProduccion.comentarios.$dirty">
+                                        <div ng-show="formProduccion.comentarios.$error.required" class="alert alert-danger"
+                                         role="alert">agregue un comentario</div>
+                                    </div>
+
+            <div class="form-group" ng-class="{'has-error' : formProduccion.comentarios.$invalid,'has-success' : formProduccion.comentarios.$valid}">
                           <label for="comment">Comentarios Producción:</label>
-                          <textarea class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment" required></textarea>
+                          <textarea name="comentarios" class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment" required></textarea>
             </div>
            
               <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-success"  ng-click="guardar('formProduccion.$invalid')">Guardar</a>
+                <a href="#" class="btn btn-success"  ng-disabled="formProduccion.$invalid"  ng-click="guardar('formProduccion.$invalid')">Guardar</a>
                 <a href="#" class="btn btn-warning" id="btnEditar" ng-click="modificar('formProduccion')" disabled>Editar</a>
                
             </div>
