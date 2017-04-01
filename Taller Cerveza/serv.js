@@ -5,6 +5,5 @@ var funciones = require('./funciones');
 
 
 funciones.configurarServidor();
-funciones.iniciarServidor();
 
 //Abrir el navegador e ingresar a localhost:8888

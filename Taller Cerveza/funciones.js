@@ -34,13 +34,14 @@ function configurarServidor() {
     daoPresentacion.conectardb();
     daoProduccion.conectardb();
 
-    
     app.use(express.static(__dirname + '/static'));
     server = app.listen(8888,function(){
         console.log('Servidor web iniciado');
     });
 }
 
+app.post('/crearPresentacion', daoPresentacion.crearPresentacion);
+app.post('/listarPresentaciones', daoPresentacion.listarPresentaciones);
 //servidor = http.createServer(function (entrada, respuesta) {
 //
 //        var ruta = definirRuta(entrada);

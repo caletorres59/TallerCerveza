@@ -105,7 +105,7 @@ function eliminarPresentacion(pedido, respuesta) {
  * @returns {undefined}
  */
 function updatePresentacion(pedido, respuesta) {
- var info = '';
+    var info = '';
     pedido.on('data', function (datosparciales) {
         info += datosparciales;
     });
@@ -113,17 +113,17 @@ function updatePresentacion(pedido, respuesta) {
     pedido.on('end', function () {
         var datos = querystring.parse(info);
         //Se crea un objeto con la informacion capturada
-        
+
         var codigo = [datos['codigo']];
-       
+
         var update = {
             ML: datos['cantidad'],
             VALOR: datos['precio']
         };
         var sql = 'update presentaciones set ? where ID = ?';
         //Se hace un insert mandado el objet completo
-        conexion.query(sql,[update,codigo], function (error, resultado) {
-            
+        conexion.query(sql, [update, codigo], function (error, resultado) {
+
             if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {'Content-Type': 'text/plain'});
@@ -136,7 +136,7 @@ function updatePresentacion(pedido, respuesta) {
         });
 
     });
-   
+
 }
 
 /**
@@ -148,39 +148,30 @@ function updatePresentacion(pedido, respuesta) {
 
 function crearPresentacion(pedido, respuesta) {
     //Se obtienen los datos que se enviaron por post
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-    //Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
-        //Se crea un objeto con la informacion capturada
-        var registro = {
-            ML: datos['cantidad'],
-            VALOR: datos['precio']
-        };
-        var sql = 'insert into presentaciones set ?';
-        //Se hace un insert mandado el objet completo
-        conexion.query(sql, registro, function (error, resultado) {
-           
-            if (error) {
-                console.log(error);
-                console.log(error);
-                respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.ERROR);
-            } else {
-                 console.log(error);
-                respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.OK);
-            }
-            respuesta.end();
-        });
+//    var info = '';
+//    pedido.on('data', function (datosparciales) {
+//        info += datosparciales;
+//    });
+//    
 
+    console.log('Metodo crear');
+    console.log(pedido.body);
+    var datos = pedido.body;
+    //Se crea un objeto con la informacion capturada
+    var registro = {
+        ML: datos['cantidad'],
+        VALOR: datos['precio']
+    };
+    var sql = 'insert into presentaciones set ?';
+    //Se hace un insert mandado el objet completo
+    conexion.query(sql, registro, function (error, resultado) {
+        if (error) {
+            console.log(error);
+            respuesta.send(constantes.ERROR);
+        } else {
+            console.log('ok');
+            respuesta.send(constantes.OK);
+        }
     });
 }
 
@@ -189,49 +180,37 @@ function crearPresentacion(pedido, respuesta) {
  * @param {type} respuesta
  * @returns {undefined}
  */
-function listarPresentaciones(respuesta) {
+function listarPresentaciones(pedido, respuesta) {
     var sql = 'select ID,ML,VALOR from presentaciones';
     //Se realiza la consulta, recibiendo por parametro filas los registros de la base de datos.         
     conexion.query(sql, function (error, filas) {
         if (error) {
             console.log(error);
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-            respuesta.write(constantes.ERROR);
+            respuesta.send(constantes.ERROR);
         } else {
             //Se responde
-            respuesta.writeHead(200, {'Content-Type': 'text/json'});
-            respuesta.write(JSON.stringify(filas));
+            respuesta.send(JSON.stringify(filas));
         }
-        respuesta.end();
     });
 }
 
 
 function buscarTipoCerveza(pedido, respuesta) {
     //Se obtienen datos
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-    pedido.on('end', function () {
-        //Se obtiene el codigo
-        var datos = querystring.parse(info);
-        var codigo = [datos['codigo']];
-        //Se manda el codigo en la busqueda
-        var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
-        conexion.query(sql, codigo, function (error, filas) {
-            //Se lee el registro obtenido y se sacan sus datos
-            if (error) {
-                console.log(error);
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                respuesta.write(constantes.ERROR);
-            } else {
-                //Se responde
-                respuesta.writeHead(200, {'Content-Type': 'text/json'});
-                respuesta.write(JSON.stringify(filas));
-            }
-            respuesta.end();
-        });
+
+    //Se obtiene el codigo
+    var datos = pedido.body;
+    var codigo = [datos['codigo']];
+    //Se manda el codigo en la busqueda
+    var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
+    conexion.query(sql, codigo, function (error, filas) {
+        //Se lee el registro obtenido y se sacan sus datos
+        if (error) {
+            console.log(error);
+            respuesta.send(constantes.ERROR);
+        } else {
+            respuesta.send(JSON.stringify(filas));
+        }
     });
 }
 
