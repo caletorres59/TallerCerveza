@@ -6,38 +6,38 @@ var mysql = require('mysql');
 var constantes = require('./constantes');
 function conectardb() {
 
-	// Se hace una conexion a la base de datos
-	conexion = mysql.createConnection({
-		host : constantes.host,
-		user : constantes.user,
-		password : constantes.pass,
-		database : constantes.database
-	});
-	// Se conecta a la base de datos
-	conexion.connect(function(error) {
-		if (error) {
-			console.log(error);
-			console.log('Problemas de conexion con mysql');
-		} else {
-			console.log('Conexion exitosa');
-		}
-	});
+    // Se hace una conexion a la base de datos
+    conexion = mysql.createConnection({
+        host: constantes.host,
+        user: constantes.user,
+        password: constantes.pass,
+        database: constantes.database
+    });
+    // Se conecta a la base de datos
+    conexion.connect(function (error) {
+        if (error) {
+            console.log(error);
+            console.log('Problemas de conexion con mysql');
+        } else {
+            console.log('Conexion exitosa');
+        }
+    });
 }
 
 // Crear tabla
 function crear(respuesta) {
-	var sql = "drop table if exists articulos";
-	// Ejecuta la consulta, a partir de la conexion a la base de datos
-	conexion.query(sql, function(error, resultado) {
-		if (error) {
-			console.log(error);
-			return;
-		}
-	});
+    var sql = "drop table if exists articulos";
+    // Ejecuta la consulta, a partir de la conexion a la base de datos
+    conexion.query(sql, function (error, resultado) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+    });
 
-	var sql2 = 'create table articulos ('
-			+ 'codigo int primary key auto_increment,'
-			+ 'descripcion varchar(50),' + 'precio float' + ')';
+    var sql2 = 'create table articulos ('
+            + 'codigo int primary key auto_increment,'
+            + 'descripcion varchar(50),' + 'precio float' + ')';
 
 	conexion.query(sql2, function(error, resultado) {
 		
@@ -70,16 +70,16 @@ function crear(respuesta) {
  */
 function eliminarProduccion(pedido, respuesta) {
 
-	var info = '';
+    var info = '';
 
-	pedido.on('data', function(datosparciales) {
-		info += datosparciales;
-	});
+    pedido.on('data', function (datosparciales) {
+        info += datosparciales;
+    });
 
-	pedido.on('end', function() {
+    pedido.on('end', function () {
 
-		// Se obtiene el codigo
-		var datos = querystring.parse(info);
+        // Se obtiene el codigo
+        var datos = querystring.parse(info);
 
 		var codigo = [ datos['codigo'] ];
 		// Se manda el codigo en la busqueda
@@ -113,14 +113,14 @@ function eliminarProduccion(pedido, respuesta) {
  */
 
 function crearProduccion(pedido, respuesta) {
-	// Se obtienen los datos que se enviaron por post
-	var info = '';
-	pedido.on('data', function(datosparciales) {
-		info += datosparciales;
-	});
-	// Cuando termina de capturar y pasar los datos a JSON
-	pedido.on('end', function() {
-		var datos = querystring.parse(info);
+    // Se obtienen los datos que se enviaron por post
+    var info = '';
+    pedido.on('data', function (datosparciales) {
+        info += datosparciales;
+    });
+    // Cuando termina de capturar y pasar los datos a JSON
+    pedido.on('end', function () {
+        var datos = querystring.parse(info);
 
 		console.log("estoy en el crear" + datos['codigo']);
 		// Se crea un objeto con la informacion capturada
@@ -149,7 +149,7 @@ function crearProduccion(pedido, respuesta) {
 			respuesta.end();
 		});
 
-	});
+    });
 }
 
 /**
@@ -161,59 +161,59 @@ function crearProduccion(pedido, respuesta) {
  */
 function listarProducciones(respuesta) {
 
-	var sql = 'SELECT pr.CODIGO, pr.FECHA, tc.NOMBRE as NOMBRE, p.ML as CANTIDAD, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
-			+ 'FROM producciones pr JOIN tiposcerveza tc ON pr.TIPOCERVEZA = tc.ID '
-			+ 'JOIN presentaciones p ON pr.PRESENTACION = p.ID';
-	// Se realiza la consulta, recibiendo por parametro filas los registros de
-	// la base de datos.
-	conexion.query(sql, function(error, filas) {
-		if (error) {
-			console.log(error);
-			respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+    var sql = 'SELECT pr.CODIGO, DATE_FORMAT(pr.FECHA,\'%m-%d-%Y\') AS FECHA, tc.NOMBRE as NOMBRE, p.ML as CANTIDAD, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
+            + ', p.ID AS PREID, tc.ID AS TCID FROM producciones pr JOIN tiposcerveza tc ON pr.TIPOCERVEZA = tc.ID '
+            + 'JOIN presentaciones p ON pr.PRESENTACION = p.ID';
+    // Se realiza la consulta, recibiendo por parametro filas los registros de
+    // la base de datos.
+    conexion.query(sql, function (error, filas) {
+        if (error) {
+            console.log(error);
+            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             respuesta.write(constantes.ERROR);
-		} else {
-			// Se responde
-			respuesta.writeHead(200, {'Content-Type': 'text/json'});
+        } else {
+            // Se responde
+            respuesta.writeHead(200, {'Content-Type': 'text/json'});
             respuesta.write(JSON.stringify(filas));
-		}
-		respuesta.end();
-	});
+        }
+        respuesta.end();
+    });
 }
 
 function buscarTipoCerveza(pedido, respuesta) {
-	// Se obtienen datos
-	var info = '';
-	pedido.on('data', function(datosparciales) {
-		info += datosparciales;
-	});
-	pedido.on('end', function() {
-		// Se obtiene el codigo
-		var datos = querystring.parse(info);
-		var codigo = [ datos['codigo'] ];
-		// Se manda el codigo en la busqueda
-		var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
-		conexion.query(sql, codigo, function(error, filas) {
-			// Se lee el registro obtenido y se sacan sus datos
-			if (error) {
-				console.log(error);
-				respuesta.writeHead(200, {
-					'Content-Type' : 'text/plain'
-				});
-				respuesta.write(constantes.ERROR);
-			} else {
-				// Se responde
-				respuesta.writeHead(200, {
-					'Content-Type' : 'text/json'
-				});
-				respuesta.write(JSON.stringify(filas));
-			}
-			respuesta.end();
-		});
-	});
+    // Se obtienen datos
+    var info = '';
+    pedido.on('data', function (datosparciales) {
+        info += datosparciales;
+    });
+    pedido.on('end', function () {
+        // Se obtiene el codigo
+        var datos = querystring.parse(info);
+        var codigo = [datos['codigo']];
+        // Se manda el codigo en la busqueda
+        var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
+        conexion.query(sql, codigo, function (error, filas) {
+            // Se lee el registro obtenido y se sacan sus datos
+            if (error) {
+                console.log(error);
+                respuesta.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.ERROR);
+            } else {
+                // Se responde
+                respuesta.writeHead(200, {
+                    'Content-Type': 'text/json'
+                });
+                respuesta.write(JSON.stringify(filas));
+            }
+            respuesta.end();
+        });
+    });
 }
 
 function updateProduccion(pedido, respuesta) {
- var info = '';
+    var info = '';
     pedido.on('data', function (datosparciales) {
         info += datosparciales;
     });
@@ -221,17 +221,17 @@ function updateProduccion(pedido, respuesta) {
     pedido.on('end', function () {
         var datos = querystring.parse(info);
         //Se crea un objeto con la informacion capturada
-        
+
         var codigo = [datos['codigo']];
 
         console.log(codigo);
-         var update = {
-			FECHA : datos['fecha'],
-			TIPOCERVEZA : datos['tipo'],
-			PRESENTACION : datos['presentacion'],
-			COMENTARIOS : datos['comentarios']
+        var update = {
+            FECHA: datos['fecha'],
+            TIPOCERVEZA: datos['tipo'],
+            PRESENTACION: datos['presentacion'],
+            COMENTARIOS: datos['comentarios']
         };
-       
+
         var sql = 'update producciones set ? where CODIGO = ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql,[update,codigo], function (error, resultado) {
@@ -239,20 +239,20 @@ function updateProduccion(pedido, respuesta) {
                 if (error) {
                 console.log(error);
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.ERROR);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.ERROR);
             } else {
                 respuesta.writeHead(200, {
-                'Content-Type' : 'text/plain'
-            });
-            respuesta.write(constantes.OK);
+                    'Content-Type': 'text/plain'
+                });
+                respuesta.write(constantes.OK);
             }
             respuesta.end();
         });
 
     });
-   
+
 }
 
 // Habilita a las funciones para que sean llamadas o exportadas desde otros

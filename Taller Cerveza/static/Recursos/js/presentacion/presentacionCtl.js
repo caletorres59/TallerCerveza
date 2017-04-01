@@ -11,7 +11,7 @@ var app = angular.module("appControladorPresentacion", []);
 app.controller('CtlPresentacion', function ($scope, presentacionService) {
 
     /*Se inicializa el modelo*/
-    
+
     $scope.presentaciones = [];
     $scope.identificacion = "";
 
@@ -25,24 +25,26 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
                 // //     //alert(response.usuario + " " + response.password);
                 // //     /*Solo con limpiar el objeto se limpian todos los input 
                 // //      * asociados*/
-                alert(response.data);
-                if(response.data == "OK")
+                if (response.data == "OK")
                 {
-                  alert("adentro del ok");
-                  
-                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>la presentacion fue registrada <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
-                 
-                }else{
-                 $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error en el registro <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+
+                    $('.msgServidor').html("<div id='msg' class='alert alert-success'>la presentacion fue registrada <span class='glyphicon glyphicon-ok'></span></div>");
+                    setTimeout(function () {
+                        $('.msgServidor').attr("display", "none");
+                    }, 5000);
+
+                } else {
+                    $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error en el registro <span class='glyphicon glyphicon-ok'></span></div>");
+                    setTimeout(function () {
+                        $('#msg').attr("display", "none");
+                    }, 5000);
                 }
                 $scope.identificacion = "";
             });
         } else {
-            alert("Verifique los datos ingresados");
+            $('.msgServidor').html("<div id='msg' class='alert alert-danger'> Verifique los datos <span class='glyphicon glyphicon-ok'></span></div>");
         }
-        //$scope.listar();
+        $scope.listar();
     };
     //modificar////////////////////////////////////////////
     $scope.modificar = function (form) {
@@ -51,9 +53,6 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-        alert($scope.identificacion.codigo);
-        alert($scope.identificacion.cantidad);
-        alert($scope.identificacion.precio);
         /*Si el formulario esta bien validado*/
         if (form) {
 
@@ -65,21 +64,25 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
                 // //     //alert(response.usuario + " " + response.password);
                 // //     /*Solo con limpiar el objeto se limpian todos los input 
                 // //      * asociados*/
-                alert(response.data);
-                if(response.data == "OK")
+                if (response.data == "OK")
                 {
-                  
-                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>La producción fue modificada <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
-                 
-                }else{
+
+                    $('.msgServidor').html("<div id='msg' class='alert alert-success'>La producción fue modificada <span class='glyphicon glyphicon-ok'></span></div>");
+                    setTimeout(function () {
+                        $('#msg').attr("display", "none");
+                    }, 5000);
+
+                } else {
                     $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al modificar <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
+                    setTimeout(function () {
+                        $('#msg').attr("display", "none");
+                    }, 5000);
                 }
                 $scope.identificacion = "";
+                $scope.listar();
             });
-        } else {
-            alert("Verifique los datos ingresados");
+        }else{
+            $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Verifique los datos ingresados <span class='glyphicon glyphicon-ok'></span></div>");
         }
     };
     ///Eliminar/////////////////////////////////////////////
@@ -89,43 +92,38 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
          * un valor valido. Este se ejecuta unicamente cuando el llamado http 
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
-         if(codigo != "")
+        if (codigo != "") {
+            presentacionService.eliminar(codigo).then(function (response) {
+                // //     /*El resultado de la promesa se recibe por parametro*/
+                // //     //alert(response.usuario + " " + response.password);
+                // //     /*Solo con limpiar el objeto se limpian todos los input 
+                // //      * asociados*/
 
-         {
-              presentacionService.eliminar(codigo).then(function (response) {
-            // //     /*El resultado de la promesa se recibe por parametro*/
-            // //     //alert(response.usuario + " " + response.password);
-            // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
-            
-            alert(response.data);
-            if(response.data == "OK")
+                if (response.data == "OK")
                 {
-                  
-                  $('.msgServidor').html("<div id='msg' class='alert alert-success'>la presentación fue eliminada  <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){ $('#msg').attr("display","none"); }, 5000);
-                 
-                }else{
+
+                    $('.msgServidor').html("<div id='msg' class='alert alert-success'>la presentación fue eliminada  <span class='glyphicon glyphicon-ok'></span></div>");
+                    setTimeout(function () {
+                        $('#msg').attr("display", "none");
+                    }, 5000);
+                    $scope.listar();
+                } else {
                     $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al eliminar <span class='glyphicon glyphicon-ok'></span></div>");
-                  setTimeout(function(){  $(".msgServidor").attr("display","none"); }, 5000);
+                    setTimeout(function () {
+                        $(".msgServidor").attr("display", "none");
+                    }, 5000);
                 }
-            
-             
-           
-        });
-          }else{
+            });
+        }
+        $scope.identificacion = "";
 
-          }
 
-      $scope.identificacion = "";
-    
-      //$scope.listar();
-       
     };
 
     //listar//////////////////////////////////////////
     $scope.listar = function () {
-       
+        $scope.presentaciones = [];
+
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
         //  * el cual esta asociado a los input*/
         presentacionService.listar($scope.identificacion).then(function (response) {
@@ -172,7 +170,7 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
         //Seteo los campos
         $scope.identificacion = presentacion;
         $('#btnEditar').removeAttr('disabled');
-        
+
     };
 
     $scope.listar();

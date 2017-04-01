@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-	  <title>Taller Bebidas</title>
+    <head>
+        <title>Taller Bebidas</title>
         <link rel="stylesheet" type="text/css" href="Recursos\bower_components\bootstrap\dist\css\bootstrap.css">
-         <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
+        <link rel="stylesheet" type="text/css" href="Recursos\css\style.css">
         <script type="text/javascript" src="Recursos\bower_components\jquery\dist\jquery.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\angular\angular.js"></script>
         <script type="text/javascript" src="Recursos\bower_components\bootstrap\dist\js\bootstrap.js"></script>
@@ -11,216 +11,214 @@
 
         <script type="text/javascript" src="Recursos/js/produccion/produccionCtl.js"></script>
         <script type="text/javascript" src="Recursos/js/produccion/produccionSer.js"></script>
-</head>
-<body ng-app="appControladorProduccion">
-<div class="container-fluid">
-	
-	<header>
-         <nav class="navbar navbar-inverse">
-             <a href="index.html" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Taller Cerveza</a>
-         </nav>
-    </header>
+    </head>
+    <body ng-app="appControladorProduccion">
+        <div class="container-fluid">
 
-    <div class="container">
-      <div class="row">
-  <div class="col-md-12">
-     <img src="Recursos/img/descarga.jfif" style="height: 200px;" alt="" class="img-circle img-responsive center-block">
-  </div>
-</div>
-<br>
+            <header>
+                <nav class="navbar navbar-inverse">
+                    <a href="index.html" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Taller Cerveza</a>
+                </nav>
+            </header>
 
-<div ng-controller="CtlProduccion">
-  <div class="row">
-  <div class="col-md-12">
-    
-    <div class="panel panel-info">
-        <div class="panel-heading">
-         <h3 class="panel-title"><span class="glyphicon glyphicon-glass"></span> Gestión Producción</h3>
-        </div>
-      <div class="panel-body">
-       
-        <form name="formProduccion" role="form">
-
-
-         <div class="msgServidor">
-                                        
-          </div>
-
-                                     <div ng-show="formProduccion.codigoPro.$dirty">
-                                        <div ng-show="formProduccion.codigoPro.$error.required" class="alert alert-danger"
-                                         role="alert">El campo codigo es Obligatorio</div>
-                                    </div>
-              <div class="form-group" ng-class="{'has-error' : formProduccion.codigoPro.$invalid,'has-success' : formProduccion.codigoPro.$valid}">
-
-              <label for="codigoPro">Codigo:</label>
-              <input type="text"   class="form-control" id="codigoPro" name="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo" required>
-            </div>  
-             <div ng-show="formProduccion.fecha.$dirty">
-                                        <div ng-show="formProduccion.fecha.$error.required" class="alert alert-danger"
-                                         role="alert">El campo fecha es Obligatorio</div>
-                                    </div>
-            <div class="form-group" ng-class="{'has-error' : formProduccion.fecha.$invalid,'has-success' : formProduccion.fecha.$valid}">
-              <label for="fecha">Fecha:</label>
-              <input type="date" name="fecha" class="form-control" id="fecha"  ng-model="identificacion.fecha" required>
-            </div>
-
-            <div ng-show="formProduccion.tipo.$dirty">
-                                        <div ng-show="formProduccion.tipo.$error.required" class="alert alert-danger"
-                                         role="alert">Selecciones un tipo</div>
-                                    </div>
-            <div class="form-group" ng-class="{'has-error' : formProduccion.tipo.$invalid,'has-success' : formProduccion.tipo.$valid}">
-              
-                <label for="sel1">Tipo de Cerveza:</label>
-                  <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas" required>
-                  <option value="-1">Seleccione</option>
-                  </select>
-
-
-            </div>
-            <div ng-show="formProduccion.presentacion.$dirty">
-                                        <div ng-show="formProduccion.presentacion.$error.required" class="alert alert-danger"
-                                         role="alert">Selecciones una presentacion</div>
-                                    </div>
-
-
-             <div class="form-group" ng-class="{'has-error' : formProduccion.presentacion.$invalid,'has-success' : formProduccion.presentacion.$valid}">
-              
-                <label for="pre">Presentaciones:</label>
-                  <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones" required>
-                         <option value="-1">Seleccione</option>                 
-                                          
-                  </select>
-
-              
-            </div>
-
-              <div ng-show="formProduccion.comentarios.$dirty">
-                                        <div ng-show="formProduccion.comentarios.$error.required" class="alert alert-danger"
-                                         role="alert">agregue un comentario</div>
-                                    </div>
-
-            <div class="form-group" ng-class="{'has-error' : formProduccion.comentarios.$invalid,'has-success' : formProduccion.comentarios.$valid}">
-                          <label for="comment">Comentarios Producción:</label>
-                          <textarea name="comentarios" class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment" required></textarea>
-            </div>
-           
-              <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-success"  ng-disabled="formProduccion.$invalid"  ng-click="guardar('formProduccion.$invalid')">Guardar</a>
-                <a href="#" class="btn btn-warning" id="btnEditar" ng-click="modificar('formProduccion')" disabled>Editar</a>
-               
-            </div>
-            
-     </form>
-     </div>
-</div>
-
-
-  </div>
-
-</div>
-  
-
-      <div class="row">
-        <div class="col-md-12">
-          
-
-            <div class="panel panel-default">
-            
-        <div class="panel-heading">
-
-         <h3 class="panel-title">Listado de Producción</h3>
-
-         <br>
-         <br>
-
-          <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </span>
-                        
-                        <input type="text" class="form-control" placeholder="Buscar Produccion" ng-model="buscar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="Recursos/img/descarga.jfif" style="height: 200px;" alt="" class="img-circle img-responsive center-block">
                     </div>
-        </div>
-          <div class="panel-body">
-            <div class="table-responsive">
+                </div>
+                <br>
 
-                        <table class="table table-responsive table-hover table-striped table-condensed">
-                            <thead>
-                            <tr>
-                             <th class="seleccionable">
-                                    
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('-codigo')"></a>
-                                    <label>Codigo</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-codigo')"></a>
-                                  
-                                </th>
-                                <th class="seleccionable">
-                                    
-                                    <a class="glyphicon glyphicon-triangle-top"  ng-click="ordenarPorParametro('fecha')"></a>
-                                    <label>Fecha</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom"  ng-click="ordenarPorParametro('-fecha')"></a>
-                                  
-                                </th>
-                                
-                                <th class="seleccionable">
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('tipo')"></a>
-                                     <label>Tipo Cerveza</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-tipo')"></a>
-                                </th>
+                <div ng-controller="CtlProduccion">
+                    <div class="row">
+                        <div class="col-md-12">
 
-                                <th class="seleccionable">
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('presentacion')"></a>
-                                     <label>Presentación</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-presentacion')"></a>
-                                </th>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><span class="glyphicon glyphicon-glass"></span> Gestión Producción</h3>
+                                </div>
+                                <div class="panel-body">
 
-                                 <th class="seleccionable">
-                                    <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('comentario')"></a>
-                                     <label>Comentarios</label>
-                                    <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-comentario')"></a>
-                                </th>
-                                   
-                                   
-                                   
-                        </thead>
-                
-                            <tbody>
-                                <tr ng-click="mostrarCampos(obj.codigo)" ng-repeat="obj in producciones | 
+                                    <form name="formProduccion" role="form">
+
+
+                                        <div class="msgServidor">
+
+                                        </div>
+
+                                        <div ng-show="formProduccion.codigoPro.$dirty">
+                                            <div ng-show="formProduccion.codigoPro.$error.required" class="alert alert-danger"
+                                                 role="alert">El campo codigo es Obligatorio</div>
+                                        </div>
+                                        <div class="form-group" ng-class="{'has-error' : formProduccion.codigoPro.$invalid,'has-success' : formProduccion.codigoPro.$valid}">
+
+                                            <label for="codigoPro">Codigo:</label>
+                                            <input type="text"   class="form-control" id="codigoPro" name="codigoPro"  placeholder="codigo" ng-model="identificacion.codigo" required>
+                                        </div>  
+                                        <div ng-show="formProduccion.fecha.$dirty">
+                                            <div ng-show="formProduccion.fecha.$error.required" class="alert alert-danger"
+                                                 role="alert">El campo fecha es Obligatorio</div>
+                                        </div>
+                                        <div class="form-group" ng-class="{'has-error' : formProduccion.fecha.$invalid,'has-success' : formProduccion.fecha.$valid}">
+                                            <label for="fecha">Fecha:</label>
+                                            <input type="date" name="fecha" class="form-control" id="fecha"  ng-model="identificacion.fecha" required>
+                                        </div>
+
+                                        <div ng-show="formProduccion.tipo.$dirty">
+                                            <div ng-show="formProduccion.tipo.$error.required" class="alert alert-danger"
+                                                 role="alert">Selecciones un tipo</div>
+                                        </div>
+                                        <div class="form-group" ng-class="{'has-error' : formProduccion.tipo.$invalid,'has-success' : formProduccion.tipo.$valid}">
+
+                                            <label for="sel1">Tipo de Cerveza:</label>
+                                            <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="cervezas.nombre for cervezas in cervezas" required>
+                                                <option value="-1">Seleccione</option>
+                                            </select>
+
+
+                                        </div>
+                                        <div ng-show="formProduccion.presentacion.$dirty">
+                                            <div ng-show="formProduccion.presentacion.$error.required" class="alert alert-danger"
+                                                 role="alert">Selecciones una presentacion</div>
+                                        </div>
+
+
+                                        <div class="form-group" ng-class="{'has-error' : formProduccion.presentacion.$invalid,'has-success' : formProduccion.presentacion.$valid}">
+
+                                            <label for="pre">Presentaciones:</label>
+                                            <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="presentaciones.cantidad for presentaciones in presentaciones" required>
+                                                <option value="-1">Seleccione</option>                 
+
+                                            </select>
+
+
+                                        </div>
+
+                                        <div ng-show="formProduccion.comentarios.$dirty">
+                                            <div ng-show="formProduccion.comentarios.$error.required" class="alert alert-danger"
+                                                 role="alert">agregue un comentario</div>
+                                        </div>
+
+                                        <div class="form-group" ng-class="{'has-error' : formProduccion.comentarios.$invalid,'has-success' : formProduccion.comentarios.$valid}">
+                                            <label for="comment">Comentarios Producción:</label>
+                                            <textarea name="comentarios" class="form-control" ng-model="identificacion.comentarios" rows="5" id="comment" required></textarea>
+                                        </div>
+
+                                        <div class="btn-group btn-group-justified">
+                                            <a href="#" class="btn btn-success"  ng-disabled="formProduccion.$invalid"  ng-click="guardar('formProduccion.$invalid')">Guardar</a>
+                                            <a href="#" class="btn btn-warning" id="btnEditar" ng-click="modificar('formProduccion')" disabled>Editar</a>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+
+                                    <h3 class="panel-title">Listado de Producción</h3>
+
+                                    <br>
+                                    <br>
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                        </span>
+
+                                        <input type="text" class="form-control" placeholder="Buscar Produccion" ng-model="buscar">
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+
+                                        <table class="table table-responsive table-hover table-striped table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="seleccionable">
+
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('-codigo')"></a>
+                                                        <label>Codigo</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-codigo')"></a>
+
+                                                    </th>
+                                                    <th class="seleccionable">
+
+                                                        <a class="glyphicon glyphicon-triangle-top"  ng-click="ordenarPorParametro('fecha')"></a>
+                                                        <label>Fecha</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom"  ng-click="ordenarPorParametro('-fecha')"></a>
+
+                                                    </th>
+
+                                                    <th class="seleccionable">
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('tipo')"></a>
+                                                        <label>Tipo Cerveza</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-tipo')"></a>
+                                                    </th>
+
+                                                    <th class="seleccionable">
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('presentacion')"></a>
+                                                        <label>Presentación</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-presentacion')"></a>
+                                                    </th>
+
+                                                    <th class="seleccionable">
+                                                        <a class="glyphicon glyphicon-triangle-top" ng-click="ordenarPorParametro('comentario')"></a>
+                                                        <label>Comentarios</label>
+                                                        <a class="glyphicon glyphicon-triangle-bottom" ng-click="ordenarPorParametro('-comentario')"></a>
+                                                    </th>
+
+
+
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-click="mostrarCampos(obj.codigo)" ng-repeat="obj in producciones| 
                                 orderBy: ordenSeleccionado | filter:buscar">
-                                 <td>{{obj.codigo | uppercase}}</td>
-                                 <td>{{obj.fecha | uppercase}}</td>
-                                 <td>{{obj.tipo | uppercase}}</td>
-                                 <td>{{obj.presentacion | uppercase}}</td>
-                                 <td>{{obj.comentarios | uppercase}}</td>
-                                 <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
-                                  
-                            </tr>
-                            
-                            </tbody>
-                        </table>
+                                                    <td>{{obj.codigo| uppercase}}</td>
+                                                    <td>{{obj.fecha| uppercase}}</td>
+                                                    <td>{{obj.tipo| uppercase}}</td>
+                                                    <td>{{obj.presentacion| uppercase}}</td>
+                                                    <td>{{obj.comentarios| uppercase}}</td>
+                                                    <td style="display: none;">{{obj.tipoPresentacion| uppercase}}</td>
+                                                    <td style="display: none;">{{obj.tipoCerveza| uppercase}}</td>
+                                                    <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
                     </div>
+
+
+
+                </div>
+
+
+
+            </div>
         </div>
-</div>
-
-      </div>
 
 
-
-</div>
-
-
-
-    </div>
-
-
-
-</div>
-
-
-
-
-
-
-
-</body>
+    </body>
 </html>

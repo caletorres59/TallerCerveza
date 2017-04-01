@@ -14,6 +14,8 @@ var mime = require('mime');
 
 var formidable = require('formidable');
 
+var express = require('express');
+var server;
 
 /*Con el ./ se indica que el archivo que se va a necesitar se encuentra en la 
  * misma carpeta, ademas cuando no se coloca esto NODE busca en su nucleo dicho
@@ -23,104 +25,111 @@ var dao = require('./dao');
 var daoTipoCerveza = require('./daoTipoCerveza');
 var daoPresentacion = require('./daoPresentacion');
 var daoProduccion = require('./daoProducccion');
+var bodyParser = require('body-parser');
+var app = express();
+app.use(bodyParser.urlencoded({extended: false}));
 
 function configurarServidor() {
-
     daoTipoCerveza.conectardb();
     daoPresentacion.conectardb();
     daoProduccion.conectardb();
 
-    servidor = http.createServer(function (entrada, respuesta) {
-
-        var ruta = definirRuta(entrada);
-
-        switch (ruta) {
-            case 'static/crearTipoCerveza':
-            {
-                //Si se da en crear tabla
-                daoTipoCerveza.crearTipoCerveza(entrada, respuesta);
-                break;
-            }
-            case 'static/listarTiposCerveza':
-            {
-                daoTipoCerveza.listarTiposCerveza(respuesta);
-                break;
-            }
-            case 'static/eliminarTipoCerveza':
-            {
-                daoTipoCerveza.eliminarTipoCerveza(entrada, respuesta);
-                break;
-            }
-            case 'static/updateCervezas':
-            {
-                daoTipoCerveza.updateCervezas(entrada, respuesta);
-                break;
-            }
-
-            case 'static/listarPresentaciones':
-            {
-                daoPresentacion.listarPresentaciones(respuesta);
-                break;
-            }
-            case 'static/crearPresentacion':
-            {
-                daoPresentacion.crearPresentacion(entrada, respuesta);
-                break;
-            }
-
-            case 'static/updatePresentacion':
-            {
-                daoPresentacion.updatePresentacion(entrada, respuesta);
-                break;
-            }
-            case 'static/guardarProduccion':
-            {
-                daoProduccion.crearProduccion(entrada, respuesta);
-                break;
-            }
-            case 'static/listarProducciones':
-            {
-                daoProduccion.listarProducciones(respuesta);
-                break;
-            }
-            case 'static/eliminarProduccion':
-            {
-                daoProduccion.eliminarProduccion(entrada, respuesta);
-                break;
-            }
-            case 'static/eliminarPresentacion':
-            {
-                daoPresentacion.eliminarPresentacion(entrada, respuesta);
-                break;
-            }
-            case 'static/updateProduccion':
-            {
-                daoProduccion.updateProduccion(entrada, respuesta);
-                break;
-            }
-            case 'static/subirArchivo':
-            {
-                subirArchivo(entrada, respuesta);
-                break;
-            }
-            default:
-            {
-                //Validamos si la pagina solicitada existe
-                fs.exists(ruta, function (existe) {
-                    //Si la encontro
-                    if (existe) {
-                        cargarPagina(ruta, respuesta);
-                    }
-                    //Si no existe respondemos error 404
-                    else {
-                        mostrarError(respuesta);
-                    }
-                });
-            }
-        }
+    
+    app.use(express.static(__dirname + '/static'));
+    server = app.listen(8888,function(){
+        console.log('Servidor web iniciado');
     });
 }
 
+//servidor = http.createServer(function (entrada, respuesta) {
+//
+//        var ruta = definirRuta(entrada);
+//
+//        switch (ruta) {
+//            case 'static/crearTipoCerveza':
+//            {
+//                //Si se da en crear tabla
+//                daoTipoCerveza.crearTipoCerveza(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/listarTiposCerveza':
+//            {
+//                daoTipoCerveza.listarTiposCerveza(respuesta);
+//                break;
+//            }
+//            case 'static/eliminarTipoCerveza':
+//            {
+//                daoTipoCerveza.eliminarTipoCerveza(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/updateCervezas':
+//            {
+//                daoTipoCerveza.updateCervezas(entrada, respuesta);
+//                break;
+//            }
+//
+//            case 'static/listarPresentaciones':
+//            {
+//                daoPresentacion.listarPresentaciones(respuesta);
+//                break;
+//            }
+//            case 'static/crearPresentacion':
+//            {
+//                daoPresentacion.crearPresentacion(entrada, respuesta);
+//                break;
+//            }
+//
+//            case 'static/updatePresentacion':
+//            {
+//                daoPresentacion.updatePresentacion(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/guardarProduccion':
+//            {
+//                daoProduccion.crearProduccion(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/listarProducciones':
+//            {
+//                daoProduccion.listarProducciones(respuesta);
+//                break;
+//            }
+//            case 'static/eliminarProduccion':
+//            {
+//                daoProduccion.eliminarProduccion(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/eliminarPresentacion':
+//            {
+//                daoPresentacion.eliminarPresentacion(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/updateProduccion':
+//            {
+//                daoProduccion.updateProduccion(entrada, respuesta);
+//                break;
+//            }
+//            case 'static/subirArchivo':
+//            {
+//                subirArchivo(entrada, respuesta);
+//                break;
+//            }
+//            default:
+//            {
+//                //Validamos si la pagina solicitada existe
+//                fs.exists(ruta, function (existe) {
+//                    //Si la encontro
+//                    if (existe) {
+//                        cargarPagina(ruta, respuesta);
+//                    }
+//                    //Si no existe respondemos error 404
+//                    else {
+//                        mostrarError(respuesta);
+//                    }
+//                });
+//            }
+//        }
+//    });
 
 
 
