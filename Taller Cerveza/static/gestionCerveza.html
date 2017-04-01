@@ -75,8 +75,8 @@
                                         </div>
 
                                         <div class="btn-group btn-group-justified">
-                                            <a href="#" class="btn btn-success" ng-disabled="formCerveza.$invalid" ng-click="guardar('formCerveza')">Guardar</a>
-                                            <a href="#" id="btnEditar" class="btn btn-warning" ng-click="modificar('formCerveza.$valid')" disabled>Editar</a>
+                                            <span  class="btn btn-success" ng-disabled="formCerveza.$invalid" ng-click="guardar('formCerveza')">Guardar</span>
+                                            <span  id="btnEditar" class="btn btn-warning" ng-click="modificar('formCerveza.$valid')" disabled>Editar</span>
                                             <!--<a href="#" class="btn btn-danger" ng-click="eliminar('formCerveza')" disabled>Eliminar</a> -->
                                         </div>
 
@@ -146,7 +146,7 @@
                                                     <td>{{obj.nombre| uppercase}}</td>
                                                     <td>{{obj.descripcion| uppercase}}</td>
                                                     <td>{{obj.porcentaje| uppercase}}</td>
-                                                    <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
+                                                    <td><span class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></span></td>
                                                 </tr>
 
                                             </tbody>

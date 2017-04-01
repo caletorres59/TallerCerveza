@@ -74,37 +74,27 @@ function crear(respuesta) {
  */
 function eliminarTipoCerveza(pedido, respuesta) {
 
-    var info = '';
-
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-
-    pedido.on('end', function () {
+   
+     console.log("eliminar");
+    
 
         //Se obtiene el codigo
-        var datos = querystring.parse(info);
+        var datos = pedido.body;
 
-        var codigo = [datos['codigo']];
+        var codigo = datos['codigo'];
 
         //Se manda el codigo en la busqueda
         var sql = 'delete from tiposcerveza where ID = ?';
         conexion.query(sql, codigo, function (error) {
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.ERROR);
+               
+                respuesta.send(constantes.ERROR);
             } else {
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.OK);
+                
+                respuesta.send(constantes.OK);
             }
-            respuesta.end();
-        });
+        
     });
 }
 
@@ -116,15 +106,11 @@ function eliminarTipoCerveza(pedido, respuesta) {
  */
 function crearTipoCerveza(pedido, respuesta) {
     //Se obtienen los datos que se enviaron por post
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
+    
     //Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
-        console.log(datos);
+   
         //Se crea un objeto con la informacion capturada
+        var datos = pedido.body;
         var registro = {
             NOMBRE: datos['nombre'],
             DESCRIPCION: datos['descripcion'],
@@ -135,22 +121,17 @@ function crearTipoCerveza(pedido, respuesta) {
         conexion.query(sql, registro, function (error, resultado) {
 
             if (error) {
-                console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.ERROR);
+                console.log(error); 
+                respuesta.send(constantes.ERROR);
             } else {
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.OK);
+               
+                respuesta.send(constantes.OK);
             }
             respuesta.end();
         });
         //Se responde al usuario
 
-    });
+    
 }
 
 /**
@@ -158,20 +139,20 @@ function crearTipoCerveza(pedido, respuesta) {
  * @param {type} respuesta
  * @returns {undefined}
  */
-function listarTiposCerveza(respuesta) {
+function listarTiposCerveza(pedido,respuesta) {
     var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza';
     //Se realiza la consulta, recibiendo por parametro filas los registros de la base de datos.         
     conexion.query(sql, function (error, filas) {
         if (error) {
             console.log(error);
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-            respuesta.write(constantes.ERROR);
+          
+            respuesta.send(constantes.ERROR);
         } else {
             //Se responde
-            respuesta.writeHead(200, {'Content-Type': 'text/json'});
-            respuesta.write(JSON.stringify(filas));
+           
+            respuesta.send(JSON.stringify(filas));
         }
-        respuesta.end();
+       
     });
 }
 
@@ -182,13 +163,10 @@ function listarTiposCerveza(respuesta) {
  * @returns {undefined}
  */
 function updateCervezas(pedido, respuesta) {
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
+    
     //Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
+  
+         var datos = pedido.body;
         //Se crea un objeto con la informacion capturada
 
         var codigo = [datos['codigo']];
@@ -203,22 +181,16 @@ function updateCervezas(pedido, respuesta) {
         var sql = 'update tiposcerveza set ? where ID = ?';
         //Se hace un insert mandado el objet completo
         conexion.query(sql, [update, codigo], function (error, resultado) {
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
+           
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.ERROR);
+               
+                respuesta.send(constantes.ERROR);
             } else {
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.OK);
+                
+                respuesta.send(constantes.OK);
             }
-            respuesta.end();
-        });
-
+          
     });
 
 }
@@ -226,11 +198,7 @@ function updateCervezas(pedido, respuesta) {
 
 function buscarTipoCerveza(pedido, respuesta) {
     //Se obtienen datos
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-    pedido.on('end', function () {
+   
         //Se obtiene el codigo
         var datos = querystring.parse(info);
         var codigo = [datos['codigo']];
@@ -240,17 +208,14 @@ function buscarTipoCerveza(pedido, respuesta) {
             //Se lee el registro obtenido y se sacan sus datos
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/json'
-                });
-                respuesta.write(JSON.stringify(constantes.ERROR));
+               
+                respuesta.send(constantes.ERROR);
             } else {
                 //Se responde
-                respuesta.writeHead(200, {'Content-Type': 'text/json'});
-                respuesta.write(JSON.stringify(filas));
+              
+                respuesta.send(JSON.stringify(filas));
             }
-            respuesta.end();
-        });
+         
     });
 }
 

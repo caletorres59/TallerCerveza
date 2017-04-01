@@ -170,6 +170,7 @@ app.controller('CtlCerveza', function ($scope, cervezaService) {
             if (obj.codigo === codigo)
             {
                 cervesa = obj;
+                cervesa.porcentaje=parseInt(obj.porcentaje);
             }
 
         });

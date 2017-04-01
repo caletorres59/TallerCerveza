@@ -42,6 +42,26 @@ function configurarServidor() {
 
 app.post('/crearPresentacion', daoPresentacion.crearPresentacion);
 app.post('/listarPresentaciones', daoPresentacion.listarPresentaciones);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Tipo cerveza
+
+app.post('/crearTipoCerveza', daoTipoCerveza.crearTipoCerveza);
+app.post('/listarTiposCerveza', daoTipoCerveza.listarTiposCerveza);
+app.post('/updateCervezas', daoTipoCerveza.updateCervezas);
+app.post('/eliminarTipoCerveza', daoTipoCerveza.eliminarTipoCerveza);
 //servidor = http.createServer(function (entrada, respuesta) {
 //
 //        var ruta = definirRuta(entrada);
