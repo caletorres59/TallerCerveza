@@ -31,7 +31,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
         // alert($scope.identificacion.comentarios);
         /*Si el formulario esta bien validado*/
         if (form) {
-
+           
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
@@ -108,7 +108,6 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
         /*Si el formulario esta bien validado*/
 
 
-
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
         //  * el cual esta asociado a los input*/
         produccionService.eliminar(codigo).then(function (response) {
@@ -124,13 +123,15 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
                     $('#msg').attr("display", "none");
                 }, 5000);
 
+
             } else {
                 $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al eliminar <span class='glyphicon glyphicon-ok'></span></div>");
                 setTimeout(function () {
                     $(".msgServidor").attr("display", "none");
                 }, 5000);
             }
-            $scope.identificacion = "";
+              $scope.identificacion = "";
+              $scope.listar();
         });
 
     };
@@ -146,7 +147,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
         /*Si el formulario esta bien validado*/
 
 
-
+         $scope.producciones = [];
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
         //  * el cual esta asociado a los input*/
         produccionService.listar($scope.identificacion).then(function (response) {
@@ -154,21 +155,22 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             //    * asociados*/
+           
             if (response.length > 0)
 
             {
 
                 for (var i = 0; i < response.length; i++)
                 {
+                   
 
                     $scope.producciones.push({
                         codigo: response[i].CODIGO,
                         fecha: response[i].FECHA,
-                        tipo: response[i].NOMBRE,
-                        presentacion: response[i].CANTIDAD,
+                        selTipo: response[i].TCID,
+                        cantidad: response[i].CANTIDAD,
                         comentarios: response[i].COMENTARIOS,
-                        tipoCerveza: response[i].TCID,
-                        tipoPresentacion: response[i].PREID
+                       
 
                     });
                 }
@@ -219,7 +221,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             }
 
             // //      * asociados*/
-            $scope.identificacion = "";
+           
         });
 
     };
@@ -261,7 +263,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             }
 
             // //      * asociados*/
-            $scope.identificacion = "";
+           
         });
 
     };
@@ -288,17 +290,21 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
                 var pattern = /(\d{4})(\d{2})(\d{2})/;
                 produccion.fecha = new Date(fechaReplace.replace(pattern,'$1-$2-$3'));
                 produccion.codigo = obj.codigo;
-                produccion.selPresentacion = obj.tipoPresentacion;
-                produccion.selTipo =obj.tipoCerveza;
+                produccion.selPresentacion = obj.cantidad;
+                produccion.selTipo =obj.selTipo;
 
             }
 
         });
+
+       
+       
         //Seteo los campos
         // alert(produccion.tipo.nombre);
         $scope.identificacion = produccion;
         $('#btnEditar').removeAttr('disabled');
         $('#codigoPro').prop('disabled', true);
+
 
     };
 

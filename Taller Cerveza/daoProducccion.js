@@ -70,16 +70,12 @@ function crear(respuesta) {
  */
 function eliminarProduccion(pedido, respuesta) {
 
-    var info = '';
+    
 
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-
-    pedido.on('end', function () {
+  
 
         // Se obtiene el codigo
-        var datos = querystring.parse(info);
+        var datos = pedido.body;
 
 		var codigo = [ datos['codigo'] ];
 		// Se manda el codigo en la busqueda
@@ -87,19 +83,15 @@ function eliminarProduccion(pedido, respuesta) {
 		conexion.query(sql, codigo, function(error, filas) {
 			
 			if (error) {
-				respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-			});
-				respuesta.write(constantes.ERROR);
+                respuesta.send(constantes.ERROR);
+			
 			} else {
-				respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-			});
-				respuesta.write(constantes.OK);
+                respuesta.send(constantes.OK);
+				
 			}
-			respuesta.end();
+			
 		});
-	});
+	
 }
 
 /**
@@ -114,15 +106,9 @@ function eliminarProduccion(pedido, respuesta) {
 
 function crearProduccion(pedido, respuesta) {
     // Se obtienen los datos que se enviaron por post
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
+    var datos = pedido.body;
     // Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
-
-		console.log("estoy en el crear" + datos['codigo']);
+            console.log("estoy en el dao crear");
 		// Se crea un objeto con la informacion capturada
 		var registro = {
 			CODIGO : datos['codigo'],
@@ -135,21 +121,16 @@ function crearProduccion(pedido, respuesta) {
 		// Se hace un insert mandado el objet completo
 		conexion.query(sql, registro, function(error, resultado) {
 			if (error) {
-				console.log(error);
-				respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-				});
-			respuesta.write(constantes.ERROR);
+				 console.log(error);
+               
+                respuesta.send(constantes.ERROR);
+			
 			} else {
-				respuesta.writeHead(200, {
-				'Content-Type' : 'text/plain'
-			});
-			respuesta.write(constantes.OK);
+				respuesta.send(constantes.OK);
 			}
-			respuesta.end();
 		});
 
-    });
+    
 }
 
 /**
@@ -159,70 +140,55 @@ function crearProduccion(pedido, respuesta) {
  *            respuesta
  * @returns {undefined}
  */
-function listarProducciones(respuesta) {
+function listarProducciones(pedido,respuesta) {
 
     var sql = 'SELECT pr.CODIGO, DATE_FORMAT(pr.FECHA,\'%m-%d-%Y\') AS FECHA, tc.NOMBRE as NOMBRE, p.ML as CANTIDAD, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
             + ', p.ID AS PREID, tc.ID AS TCID FROM producciones pr JOIN tiposcerveza tc ON pr.TIPOCERVEZA = tc.ID '
             + 'JOIN presentaciones p ON pr.PRESENTACION = p.ID';
     // Se realiza la consulta, recibiendo por parametro filas los registros de
     // la base de datos.
+   
     conexion.query(sql, function (error, filas) {
         if (error) {
-            console.log(error);
-            respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-            respuesta.write(constantes.ERROR);
+           respuesta.send(constantes.ERROR);
         } else {
             // Se responde
-            respuesta.writeHead(200, {'Content-Type': 'text/json'});
-            respuesta.write(JSON.stringify(filas));
+          
+            respuesta.send(JSON.stringify(filas));
         }
-        respuesta.end();
+       
     });
 }
 
 function buscarTipoCerveza(pedido, respuesta) {
     // Se obtienen datos
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-    pedido.on('end', function () {
-        // Se obtiene el codigo
-        var datos = querystring.parse(info);
+    var datos = pedido.body;
+    
         var codigo = [datos['codigo']];
         // Se manda el codigo en la busqueda
         var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
         conexion.query(sql, codigo, function (error, filas) {
             // Se lee el registro obtenido y se sacan sus datos
             if (error) {
-                console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.ERROR);
+              
+                respuesta.send(constantes.ERROR);
             } else {
                 // Se responde
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/json'
-                });
-                respuesta.write(JSON.stringify(filas));
+                
+                respuesta.send(JSON.stringify(filas));
             }
-            respuesta.end();
+           
         });
-    });
+   
 }
 
 function updateProduccion(pedido, respuesta) {
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
+    var datos = pedido.body;
     //Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
+   
         //Se crea un objeto con la informacion capturada
 
-        var codigo = [datos['codigo']];
+        var codigo = datos['codigo'];
 
         console.log(codigo);
         var update = {
@@ -234,24 +200,21 @@ function updateProduccion(pedido, respuesta) {
 
         var sql = 'update producciones set ? where CODIGO = ?';
         //Se hace un insert mandado el objet completo
-        conexion.query(sql,[update,codigo], function (error, resultado) {
+        conexion.query(sql,[update,codigo],function (error, resultado) {
            
                 if (error) {
-                console.log(error);
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.ERROR);
+               console.log(error);
+                respuesta.send(constantes.ERROR);
+                
             } else {
-                respuesta.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                respuesta.write(constantes.OK);
+
+                respuesta.send(constantes.OK);
+                
             }
-            respuesta.end();
+          
         });
 
-    });
+   
 
 }
 

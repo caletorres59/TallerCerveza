@@ -39,16 +39,22 @@ function configurarServidor() {
         console.log('Servidor web iniciado');
     });
 }
-
+//Presentacion
 app.post('/crearPresentacion', daoPresentacion.crearPresentacion);
 app.post('/listarPresentaciones', daoPresentacion.listarPresentaciones);
+app.post('/eliminarPresentacion', daoPresentacion.eliminarPresentacion);
+app.post('/updatePresentacion', daoPresentacion.updatePresentacion);
 
 
 
 
+//Produccion
+//
 
-
-
+app.post('/guardarProduccion', daoProduccion.crearProduccion);
+app.post('/listarProducciones', daoProduccion.listarProducciones);
+app.post('/updateProduccion', daoProduccion.updateProduccion);
+app.post('/eliminarProduccion', daoProduccion.eliminarProduccion);
 
 
 

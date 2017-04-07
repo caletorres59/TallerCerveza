@@ -27,16 +27,16 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-       
-       
+      
+       alert(identificacion.selTipo);
         var promise = $http({
             method: "post",
             url: "/guardarProduccion",
             data: $httpParamSerializerJQLike({
                 codigo: identificacion.codigo,
                 fecha: identificacion.fecha,
-                tipo:  identificacion.selTipo.codigo,
-                presentacion: identificacion.selPresentacion.codigo,
+                tipo:  identificacion.selTipo,
+                presentacion: identificacion.selPresentacion,
                 comentarios: identificacion.comentarios        
             }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -84,6 +84,8 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
         
+        alert(identificacion.selPresentacion.CANTIDAD);
+         alert(identificacion.selTipo);
         var promise = $http({
             method: "post",
             url: "/updateProduccion",

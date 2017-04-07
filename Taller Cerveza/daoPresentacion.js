@@ -70,16 +70,12 @@ function crear(respuesta) {
  */
 function eliminarPresentacion(pedido, respuesta) {
 
-    var info = '';
+   
 
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
-
-    pedido.on('end', function () {
+         var datos = pedido.body;
 
         //Se obtiene el codigo
-        var datos = querystring.parse(info);
+    
 
         var codigo = [datos['codigo']];
         //Se manda el codigo en la busqueda
@@ -87,14 +83,11 @@ function eliminarPresentacion(pedido, respuesta) {
         conexion.query(sql, codigo, function (error, filas) {
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                respuesta.write(constantes.ERROR);
+               respuesta.send(constantes.ERROR);
             } else {
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                respuesta.write(constantes.OK);
+               respuesta.send(constantes.OK);
             }
-            respuesta.end();
-        });
+           
     });
 }
 
@@ -105,16 +98,15 @@ function eliminarPresentacion(pedido, respuesta) {
  * @returns {undefined}
  */
 function updatePresentacion(pedido, respuesta) {
-    var info = '';
-    pedido.on('data', function (datosparciales) {
-        info += datosparciales;
-    });
+   
     //Cuando termina de capturar y pasar los datos a JSON
-    pedido.on('end', function () {
-        var datos = querystring.parse(info);
+    
+        var datos = pedido.body;
         //Se crea un objeto con la informacion capturada
 
         var codigo = [datos['codigo']];
+
+        console.log("estoy en las presentaciones dao");
 
         var update = {
             ML: datos['cantidad'],
@@ -126,16 +118,14 @@ function updatePresentacion(pedido, respuesta) {
 
             if (error) {
                 console.log(error);
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                respuesta.write(constantes.ERROR);
+                 respuesta.send(constantes.ERROR);
             } else {
-                respuesta.writeHead(200, {'Content-Type': 'text/plain'});
-                respuesta.write(constantes.OK);
+                respuesta.send(constantes.OK);
             }
-            respuesta.end();
+          
         });
 
-    });
+   
 
 }
 
