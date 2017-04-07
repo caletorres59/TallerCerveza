@@ -39,23 +39,23 @@ function crear(respuesta) {
             + 'codigo int primary key auto_increment,'
             + 'descripcion varchar(50),' + 'precio float' + ')';
 
-	conexion.query(sql2, function(error, resultado) {
-		
-		if (error) {
-			console.log(error);
-			respuesta.writeHead(200, {
-			'Content-Type' : 'text/plain'
-		});
-			respuesta.write(constantes.ERROR);
-		} else {
-			respuesta.writeHead(200, {
-			'Content-Type' : 'text/plain'
-		});
-			respuesta.write(constantes.OK);
-		}
-		respuesta.end();
-	});
-	// Se construye la respuesta al cliente
+    conexion.query(sql2, function (error, resultado) {
+
+        if (error) {
+            console.log(error);
+            respuesta.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            respuesta.write(constantes.ERROR);
+        } else {
+            respuesta.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            respuesta.write(constantes.OK);
+        }
+        respuesta.end();
+    });
+    // Se construye la respuesta al cliente
 
 }
 
@@ -69,29 +69,18 @@ function crear(respuesta) {
  * @returns {undefined}
  */
 function eliminarProduccion(pedido, respuesta) {
-
-    
-
-  
-
-        // Se obtiene el codigo
-        var datos = pedido.body;
-
-		var codigo = [ datos['codigo'] ];
-		// Se manda el codigo en la busqueda
-		var sql = 'delete from producciones where CODIGO = ?';
-		conexion.query(sql, codigo, function(error, filas) {
-			
-			if (error) {
-                respuesta.send(constantes.ERROR);
-			
-			} else {
-                respuesta.send(constantes.OK);
-				
-			}
-			
-		});
-	
+    // Se obtiene el codigo
+    var datos = pedido.body;
+    var codigo = [datos['codigo']];
+    // Se manda el codigo en la busqueda
+    var sql = 'delete from producciones where CODIGO = ?';
+    conexion.query(sql, codigo, function (error, filas) {
+        if (error) {
+            respuesta.send(constantes.ERROR);
+        } else {
+            respuesta.send(constantes.OK);
+        }
+    });
 }
 
 /**
@@ -108,29 +97,29 @@ function crearProduccion(pedido, respuesta) {
     // Se obtienen los datos que se enviaron por post
     var datos = pedido.body;
     // Cuando termina de capturar y pasar los datos a JSON
-            console.log("estoy en el dao crear");
-		// Se crea un objeto con la informacion capturada
-		var registro = {
-			CODIGO : datos['codigo'],
-			FECHA : datos['fecha'],
-			TIPOCERVEZA : datos['tipo'],
-			PRESENTACION : datos['presentacion'],
-			COMENTARIOS : datos['comentarios']
-		};
-		var sql = 'insert into producciones set ?';
-		// Se hace un insert mandado el objet completo
-		conexion.query(sql, registro, function(error, resultado) {
-			if (error) {
-				 console.log(error);
-               
-                respuesta.send(constantes.ERROR);
-			
-			} else {
-				respuesta.send(constantes.OK);
-			}
-		});
+    console.log("estoy en el dao crear");
+    // Se crea un objeto con la informacion capturada
+    var registro = {
+        CODIGO: datos['codigo'],
+        FECHA: datos['fecha'],
+        TIPOCERVEZA: datos['tipo'],
+        PRESENTACION: datos['presentacion'],
+        COMENTARIOS: datos['comentarios']
+    };
+    var sql = 'insert into producciones set ?';
+    // Se hace un insert mandado el objet completo
+    conexion.query(sql, registro, function (error, resultado) {
+        if (error) {
+            console.log(error);
 
-    
+            respuesta.send(constantes.ERROR);
+
+        } else {
+            respuesta.send(constantes.OK);
+        }
+    });
+
+
 }
 
 /**
@@ -140,81 +129,77 @@ function crearProduccion(pedido, respuesta) {
  *            respuesta
  * @returns {undefined}
  */
-function listarProducciones(pedido,respuesta) {
-
+function listarProducciones(pedido, respuesta) {
     var sql = 'SELECT pr.CODIGO, DATE_FORMAT(pr.FECHA,\'%m-%d-%Y\') AS FECHA, tc.NOMBRE as NOMBRE, p.ML as CANTIDAD, p.VALOR, pr.COMENTARIOS, pr.TIPOCERVEZA, pr.PRESENTACION '
             + ', p.ID AS PREID, tc.ID AS TCID FROM producciones pr JOIN tiposcerveza tc ON pr.TIPOCERVEZA = tc.ID '
             + 'JOIN presentaciones p ON pr.PRESENTACION = p.ID';
     // Se realiza la consulta, recibiendo por parametro filas los registros de
     // la base de datos.
-   
     conexion.query(sql, function (error, filas) {
         if (error) {
-           respuesta.send(constantes.ERROR);
+            respuesta.send(constantes.ERROR);
         } else {
             // Se responde
-          
             respuesta.send(JSON.stringify(filas));
         }
-       
     });
 }
 
 function buscarTipoCerveza(pedido, respuesta) {
     // Se obtienen datos
     var datos = pedido.body;
-    
-        var codigo = [datos['codigo']];
-        // Se manda el codigo en la busqueda
-        var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
-        conexion.query(sql, codigo, function (error, filas) {
-            // Se lee el registro obtenido y se sacan sus datos
-            if (error) {
-              
-                respuesta.send(constantes.ERROR);
-            } else {
-                // Se responde
-                
-                respuesta.send(JSON.stringify(filas));
-            }
-           
-        });
-   
+
+    var codigo = [datos['codigo']];
+    // Se manda el codigo en la busqueda
+    var sql = 'select ID,ML,VALOR from tiposcerveza where ID=?';
+    conexion.query(sql, codigo, function (error, filas) {
+        // Se lee el registro obtenido y se sacan sus datos
+        if (error) {
+
+            respuesta.send(constantes.ERROR);
+        } else {
+            // Se responde
+
+            respuesta.send(JSON.stringify(filas));
+        }
+
+    });
+
 }
 
 function updateProduccion(pedido, respuesta) {
     var datos = pedido.body;
     //Cuando termina de capturar y pasar los datos a JSON
-   
-        //Se crea un objeto con la informacion capturada
 
-        var codigo = datos['codigo'];
+    //Se crea un objeto con la informacion capturada
 
-        console.log(codigo);
-        var update = {
-            FECHA: datos['fecha'],
-            TIPOCERVEZA: datos['tipo'],
-            PRESENTACION: datos['presentacion'],
-            COMENTARIOS: datos['comentarios']
-        };
+    var codigo = datos['codigo'];
 
-        var sql = 'update producciones set ? where CODIGO = ?';
-        //Se hace un insert mandado el objet completo
-        conexion.query(sql,[update,codigo],function (error, resultado) {
-           
-                if (error) {
-               console.log(error);
-                respuesta.send(constantes.ERROR);
-                
-            } else {
+    console.log(codigo);
+    var update = {
+        FECHA: datos['fecha'],
+        TIPOCERVEZA: datos['tipo'],
+        PRESENTACION: datos['presentacion'],
+        COMENTARIOS: datos['comentarios']
+    };
 
-                respuesta.send(constantes.OK);
-                
-            }
-          
-        });
+    var sql = 'update producciones set ? where CODIGO = ?';
+    //Se hace un insert mandado el objet completo
+    conexion.query(sql, [update, codigo], function (error, resultado) {
 
-   
+        if (error) {
+            console.log(error);
+            respuesta.send(constantes.ERROR);
+
+        } else {
+
+            respuesta.send(constantes.OK);
+
+        }
+
+    });
+
+
 
 }
 

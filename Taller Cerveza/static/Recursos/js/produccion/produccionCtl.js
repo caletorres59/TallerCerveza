@@ -31,7 +31,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
         // alert($scope.identificacion.comentarios);
         /*Si el formulario esta bien validado*/
         if (form) {
-           
+
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
@@ -72,12 +72,12 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
 
             // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
             //  * el cual esta asociado a los input*/
-             produccionService.modificar($scope.identificacion).then(function (response) {
-            // //     /*El resultado de la promesa se recibe por parametro*/
-            // //     //alert(response.usuario + " " + response.password);
-            // //     /*Solo con limpiar el objeto se limpian todos los input 
-            // //      * asociados*/
-             if(response.data == "OK")
+            produccionService.modificar($scope.identificacion).then(function (response) {
+                // //     /*El resultado de la promesa se recibe por parametro*/
+                // //     //alert(response.usuario + " " + response.password);
+                // //     /*Solo con limpiar el objeto se limpian todos los input 
+                // //      * asociados*/
+                if (response.data == "OK")
                 {
 
                     $('.msgServidor').html("<div id='msg' class='alert alert-success'>La produccion fue modificada <span class='glyphicon glyphicon-ok'></span></div>");
@@ -91,9 +91,9 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
                         $('#msg').attr("display", "none");
                     }, 5000);
                 }
-              
-              $scope.identificacion = "";
-             });
+
+                $scope.identificacion = "";
+            });
         } else {
             alert("Verifique los datos ingresados");
         }
@@ -106,6 +106,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
          * consume el REST ("REST" es un paradigma, mientras"RESTful" describe el 
          * uso de ese paradigma*/
         /*Si el formulario esta bien validado*/
+
 
 
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
@@ -123,15 +124,13 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
                     $('#msg').attr("display", "none");
                 }, 5000);
 
-
             } else {
                 $('.msgServidor').html("<div id='msg' class='alert alert-danger'>Error al eliminar <span class='glyphicon glyphicon-ok'></span></div>");
                 setTimeout(function () {
                     $(".msgServidor").attr("display", "none");
                 }, 5000);
             }
-              $scope.identificacion = "";
-              $scope.listar();
+            $scope.identificacion = "";
         });
 
     };
@@ -147,7 +146,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
         /*Si el formulario esta bien validado*/
 
 
-         $scope.producciones = [];
+
         // /*Se ejecuta la funcion mandando por parametro el objeto identificacion, 
         //  * el cual esta asociado a los input*/
         produccionService.listar($scope.identificacion).then(function (response) {
@@ -155,30 +154,25 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             // //     //alert(response.usuario + " " + response.password);
             // //     /*Solo con limpiar el objeto se limpian todos los input 
             //    * asociados*/
-           
             if (response.length > 0)
-
             {
-
+                $scope.producciones = [];
                 for (var i = 0; i < response.length; i++)
                 {
-                   
-
                     $scope.producciones.push({
                         codigo: response[i].CODIGO,
                         fecha: response[i].FECHA,
-                        selTipo: response[i].TCID,
-                        cantidad: response[i].CANTIDAD,
+                        tipo: response[i].NOMBRE,
+                        presentacion: response[i].CANTIDAD,
                         comentarios: response[i].COMENTARIOS,
-                       
-
+                        tipoCerveza: response[i].TCID,
+                        tipoPresentacion: response[i].PREID
                     });
                 }
             } else
             {
                 alert("No hay registros en la base de datos");
             }
-
             $scope.identificacion = "";
         });
 
@@ -221,7 +215,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             }
 
             // //      * asociados*/
-           
+            $scope.identificacion = "";
         });
 
     };
@@ -253,8 +247,6 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
                         codigo: response[i].ID,
                         cantidad: response[i].ML,
                         precio: response[i].VALOR
-
-
                     });
                 }
             } else
@@ -263,7 +255,7 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             }
 
             // //      * asociados*/
-           
+            $scope.identificacion = "";
         });
 
     };
@@ -284,27 +276,23 @@ app.controller('CtlProduccion', function ($scope, produccionService) {
             if (obj.codigo === codigo)
             {
                 produccion = obj;
-                
+
                 var st = obj.fecha;
-                var fechaReplace = ''+st;
+                var fechaReplace = '' + st;
                 var pattern = /(\d{4})(\d{2})(\d{2})/;
-                produccion.fecha = new Date(fechaReplace.replace(pattern,'$1-$2-$3'));
+                produccion.fecha = new Date(fechaReplace.replace(pattern, '$1-$2-$3'));
                 produccion.codigo = obj.codigo;
-                produccion.selPresentacion = obj.cantidad;
-                produccion.selTipo =obj.selTipo;
+                produccion.selPresentacion = obj.tipoPresentacion;
+                produccion.selTipo = obj.tipoCerveza;
 
             }
 
         });
-
-       
-       
         //Seteo los campos
         // alert(produccion.tipo.nombre);
         $scope.identificacion = produccion;
         $('#btnEditar').removeAttr('disabled');
         $('#codigoPro').prop('disabled', true);
-
 
     };
 

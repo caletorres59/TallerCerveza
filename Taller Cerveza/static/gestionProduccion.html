@@ -71,8 +71,8 @@
                                         <div class="form-group" ng-class="{'has-error' : formProduccion.tipo.$invalid,'has-success' : formProduccion.tipo.$valid}">
 
                                             <label for="sel1">Tipo de Cerveza:</label>
-                                            <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="c.nombre as c.nombre for c in cervezas" required>
-                                               
+                                            <select class="form-control" name="tipo" id="sel1" ng-model="identificacion.selTipo" ng-options="cerv.codigo as cerv.nombre for cerv in cervezas" required>
+                                                <option value="-1">Seleccione</option>
                                             </select>
 
 
@@ -86,8 +86,9 @@
                                         <div class="form-group" ng-class="{'has-error' : formProduccion.presentacion.$invalid,'has-success' : formProduccion.presentacion.$valid}">
 
                                             <label for="pre">Presentaciones:</label>
-                                            <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="p.cantidad as p.cantidad for p in presentaciones" required>
-                                               
+                                            <select class="form-control" name="presentacion" id="sel1" ng-model="identificacion.selPresentacion" ng-options="pre.codigo as pre.cantidad for pre in presentaciones" required>
+                                                <option value="-1">Seleccione</option>                 
+
                                             </select>
 
 
@@ -104,8 +105,8 @@
                                         </div>
 
                                         <div class="btn-group btn-group-justified">
-                                            <span class="btn btn-success"  ng-disabled="formProduccion.$invalid"  ng-click="guardar('formProduccion.$invalid')">Guardar</span>
-                                            <span class="btn btn-warning" id="btnEditar" ng-click="modificar('formProduccion')" disabled>Editar</span>
+                                            <a href="#" class="btn btn-success"  ng-disabled="formProduccion.$invalid"  ng-click="guardar('formProduccion.$invalid')">Guardar</a>
+                                            <a href="#" class="btn btn-warning" id="btnEditar" ng-click="modificar('formProduccion')" disabled>Editar</a>
 
                                         </div>
 
@@ -188,12 +189,12 @@
                                 orderBy: ordenSeleccionado | filter:buscar">
                                                     <td>{{obj.codigo| uppercase}}</td>
                                                     <td>{{obj.fecha| uppercase}}</td>
-                                                    <td>{{obj.selTipo| uppercase}}</td>
-                                                    <td>{{obj.cantidad| uppercase}}</td>
+                                                    <td>{{obj.tipo| uppercase}}</td>
+                                                    <td>{{obj.presentacion| uppercase}}</td>
                                                     <td>{{obj.comentarios| uppercase}}</td>
-                                                  <!--   <td style="display: none;">{{obj.cantidad| uppercase}}</td>
-                                                    <td style="display: none;">{{obj.tipoCerveza| uppercase}}</td> -->
-                                                    <td><span class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></span></td>
+                                                    <td style="display: none;">{{obj.tipoPresentacion| uppercase}}</td>
+                                                    <td style="display: none;">{{obj.tipoCerveza| uppercase}}</td>
+                                                    <td><a class="glyphicon glyphicon-trash" ng-click="eliminar(obj.codigo)"></a></td>
 
                                                 </tr>
 

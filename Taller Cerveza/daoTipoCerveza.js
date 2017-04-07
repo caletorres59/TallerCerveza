@@ -73,28 +73,23 @@ function crear(respuesta) {
  * @returns {undefined}
  */
 function eliminarTipoCerveza(pedido, respuesta) {
+    //Se obtiene el codigo
+    var datos = pedido.body;
 
-   
-     console.log("eliminar");
-    
+    var codigo = datos['codigo'];
 
-        //Se obtiene el codigo
-        var datos = pedido.body;
+    //Se manda el codigo en la busqueda
+    var sql = 'delete from tiposcerveza where ID = ?';
+    conexion.query(sql, codigo, function (error) {
+        if (error) {
+            console.log(error);
 
-        var codigo = datos['codigo'];
+            respuesta.send(constantes.ERROR);
+        } else {
 
-        //Se manda el codigo en la busqueda
-        var sql = 'delete from tiposcerveza where ID = ?';
-        conexion.query(sql, codigo, function (error) {
-            if (error) {
-                console.log(error);
-               
-                respuesta.send(constantes.ERROR);
-            } else {
-                
-                respuesta.send(constantes.OK);
-            }
-        
+            respuesta.send(constantes.OK);
+        }
+
     });
 }
 
@@ -106,32 +101,32 @@ function eliminarTipoCerveza(pedido, respuesta) {
  */
 function crearTipoCerveza(pedido, respuesta) {
     //Se obtienen los datos que se enviaron por post
-    
+
     //Cuando termina de capturar y pasar los datos a JSON
-   
-        //Se crea un objeto con la informacion capturada
-        var datos = pedido.body;
-        var registro = {
-            NOMBRE: datos['nombre'],
-            DESCRIPCION: datos['descripcion'],
-            GRADOALCOHOL: datos['porcentaje']
-        };
-        var sql = 'insert into tiposcerveza set ?';
-        //Se hace un insert mandado el objet completo
-        conexion.query(sql, registro, function (error, resultado) {
 
-            if (error) {
-                console.log(error); 
-                respuesta.send(constantes.ERROR);
-            } else {
-               
-                respuesta.send(constantes.OK);
-            }
-            respuesta.end();
-        });
-        //Se responde al usuario
+    //Se crea un objeto con la informacion capturada
+    var datos = pedido.body;
+    var registro = {
+        NOMBRE: datos['nombre'],
+        DESCRIPCION: datos['descripcion'],
+        GRADOALCOHOL: datos['porcentaje']
+    };
+    var sql = 'insert into tiposcerveza set ?';
+    //Se hace un insert mandado el objet completo
+    conexion.query(sql, registro, function (error, resultado) {
 
-    
+        if (error) {
+            console.log(error);
+            respuesta.send(constantes.ERROR);
+        } else {
+
+            respuesta.send(constantes.OK);
+        }
+        respuesta.end();
+    });
+    //Se responde al usuario
+
+
 }
 
 /**
@@ -139,20 +134,20 @@ function crearTipoCerveza(pedido, respuesta) {
  * @param {type} respuesta
  * @returns {undefined}
  */
-function listarTiposCerveza(pedido,respuesta) {
+function listarTiposCerveza(pedido, respuesta) {
     var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza';
     //Se realiza la consulta, recibiendo por parametro filas los registros de la base de datos.         
     conexion.query(sql, function (error, filas) {
         if (error) {
             console.log(error);
-          
+
             respuesta.send(constantes.ERROR);
         } else {
             //Se responde
-           
+
             respuesta.send(JSON.stringify(filas));
         }
-       
+
     });
 }
 
@@ -163,34 +158,34 @@ function listarTiposCerveza(pedido,respuesta) {
  * @returns {undefined}
  */
 function updateCervezas(pedido, respuesta) {
-    
+
     //Cuando termina de capturar y pasar los datos a JSON
-  
-         var datos = pedido.body;
-        //Se crea un objeto con la informacion capturada
 
-        var codigo = [datos['codigo']];
+    var datos = pedido.body;
+    //Se crea un objeto con la informacion capturada
 
-        console.log(codigo);
-        var update = {
-            NOMBRE: datos['nombre'],
-            DESCRIPCION: datos['descripcion'],
-            GRADOALCOHOL: datos['porcentaje']
-        };
+    var codigo = [datos['codigo']];
 
-        var sql = 'update tiposcerveza set ? where ID = ?';
-        //Se hace un insert mandado el objet completo
-        conexion.query(sql, [update, codigo], function (error, resultado) {
-           
-            if (error) {
-                console.log(error);
-               
-                respuesta.send(constantes.ERROR);
-            } else {
-                
-                respuesta.send(constantes.OK);
-            }
-          
+    console.log(codigo);
+    var update = {
+        NOMBRE: datos['nombre'],
+        DESCRIPCION: datos['descripcion'],
+        GRADOALCOHOL: datos['porcentaje']
+    };
+
+    var sql = 'update tiposcerveza set ? where ID = ?';
+    //Se hace un insert mandado el objet completo
+    conexion.query(sql, [update, codigo], function (error, resultado) {
+
+        if (error) {
+            console.log(error);
+
+            respuesta.send(constantes.ERROR);
+        } else {
+
+            respuesta.send(constantes.OK);
+        }
+
     });
 
 }
@@ -198,24 +193,24 @@ function updateCervezas(pedido, respuesta) {
 
 function buscarTipoCerveza(pedido, respuesta) {
     //Se obtienen datos
-   
-        //Se obtiene el codigo
-        var datos = querystring.parse(info);
-        var codigo = [datos['codigo']];
-        //Se manda el codigo en la busqueda
-        var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza where ID=?';
-        conexion.query(sql, codigo, function (error, filas) {
-            //Se lee el registro obtenido y se sacan sus datos
-            if (error) {
-                console.log(error);
-               
-                respuesta.send(constantes.ERROR);
-            } else {
-                //Se responde
-              
-                respuesta.send(JSON.stringify(filas));
-            }
-         
+
+    //Se obtiene el codigo
+    var datos = querystring.parse(info);
+    var codigo = [datos['codigo']];
+    //Se manda el codigo en la busqueda
+    var sql = 'select ID,NOMBRE,DESCRIPCION,GRADOALCOHOL from tiposcerveza where ID=?';
+    conexion.query(sql, codigo, function (error, filas) {
+        //Se lee el registro obtenido y se sacan sus datos
+        if (error) {
+            console.log(error);
+
+            respuesta.send(constantes.ERROR);
+        } else {
+            //Se responde
+
+            respuesta.send(JSON.stringify(filas));
+        }
+
     });
 }
 

@@ -164,8 +164,6 @@ app.controller('CtlPresentacion', function ($scope, presentacionService) {
                 presentacion = obj;
                 presentacion.cantidad=parseInt(obj.cantidad);
                 presentacion.precio=parseInt(obj.precio);
-
-
             }
 
         });

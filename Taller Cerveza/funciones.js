@@ -35,7 +35,7 @@ function configurarServidor() {
     daoProduccion.conectardb();
 
     app.use(express.static(__dirname + '/static'));
-    server = app.listen(8888,function(){
+    server = app.listen(8888, function () {
         console.log('Servidor web iniciado');
     });
 }
@@ -44,30 +44,12 @@ app.post('/crearPresentacion', daoPresentacion.crearPresentacion);
 app.post('/listarPresentaciones', daoPresentacion.listarPresentaciones);
 app.post('/eliminarPresentacion', daoPresentacion.eliminarPresentacion);
 app.post('/updatePresentacion', daoPresentacion.updatePresentacion);
-
-
-
-
-//Produccion
-//
-
-app.post('/guardarProduccion', daoProduccion.crearProduccion);
-app.post('/listarProducciones', daoProduccion.listarProducciones);
-app.post('/updateProduccion', daoProduccion.updateProduccion);
-app.post('/eliminarProduccion', daoProduccion.eliminarProduccion);
-
-
-
-
-
-
-
-//Tipo cerveza
-
 app.post('/crearTipoCerveza', daoTipoCerveza.crearTipoCerveza);
 app.post('/listarTiposCerveza', daoTipoCerveza.listarTiposCerveza);
 app.post('/updateCervezas', daoTipoCerveza.updateCervezas);
 app.post('/eliminarTipoCerveza', daoTipoCerveza.eliminarTipoCerveza);
+app.post('/guardarProduccion', daoProduccion.crearProduccion);
+app.post('/listarProducciones',daoProduccion.listarProducciones);
 //servidor = http.createServer(function (entrada, respuesta) {
 //
 //        var ruta = definirRuta(entrada);

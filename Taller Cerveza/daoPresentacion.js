@@ -69,25 +69,18 @@ function crear(respuesta) {
  * @returns {undefined}
  */
 function eliminarPresentacion(pedido, respuesta) {
-
-   
-
-         var datos = pedido.body;
-
-        //Se obtiene el codigo
-    
-
-        var codigo = [datos['codigo']];
-        //Se manda el codigo en la busqueda
-        var sql = 'delete from presentaciones where ID = ?';
-        conexion.query(sql, codigo, function (error, filas) {
-            if (error) {
-                console.log(error);
-               respuesta.send(constantes.ERROR);
-            } else {
-               respuesta.send(constantes.OK);
-            }
-           
+    //Se obtiene el codigo
+    var datos = pedido.body;
+    var codigo = [datos['codigo']];
+    //Se manda el codigo en la busqueda
+    var sql = 'delete from presentaciones where ID = ?';
+    conexion.query(sql, codigo, function (error, filas) {
+        if (error) {
+            console.log(error);
+            respuesta.send(constantes.ERROR);
+        } else {
+            respuesta.send(constantes.OK);
+        }
     });
 }
 
@@ -104,7 +97,7 @@ function updatePresentacion(pedido, respuesta) {
         var datos = pedido.body;
         //Se crea un objeto con la informacion capturada
 
-        var codigo = [datos['codigo']];
+        var codigo = datos['codigo'];
 
         console.log("estoy en las presentaciones dao");
 
@@ -118,11 +111,10 @@ function updatePresentacion(pedido, respuesta) {
 
             if (error) {
                 console.log(error);
-                 respuesta.send(constantes.ERROR);
+                respuesta.send(constantes.ERROR);
             } else {
                 respuesta.send(constantes.OK);
             }
-          
         });
 
    
@@ -144,8 +136,6 @@ function crearPresentacion(pedido, respuesta) {
 //    });
 //    
 
-    console.log('Metodo crear');
-    console.log(pedido.body);
     var datos = pedido.body;
     //Se crea un objeto con la informacion capturada
     var registro = {
@@ -159,7 +149,6 @@ function crearPresentacion(pedido, respuesta) {
             console.log(error);
             respuesta.send(constantes.ERROR);
         } else {
-            console.log('ok');
             respuesta.send(constantes.OK);
         }
     });

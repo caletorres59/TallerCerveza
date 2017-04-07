@@ -26,6 +26,7 @@ app.service('cervezaService', function ($http, $httpParamSerializerJQLike) {
     this.guardar = function (identificacion) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
+        alert(identificacion.porcentaje);
         var promise = $http({
             method: "post",
             url: "/crearTipoCerveza",
