@@ -49,7 +49,10 @@ app.post('/listarTiposCerveza', daoTipoCerveza.listarTiposCerveza);
 app.post('/updateCervezas', daoTipoCerveza.updateCervezas);
 app.post('/eliminarTipoCerveza', daoTipoCerveza.eliminarTipoCerveza);
 app.post('/guardarProduccion', daoProduccion.crearProduccion);
-app.post('/listarProducciones',daoProduccion.listarProducciones);
+app.post('/listarProducciones', daoProduccion.listarProducciones);
+app.post('/eliminarProduccion', daoProduccion.eliminarProduccion);
+app.post('/updateProduccion', daoProduccion.updateProduccion);
+
 //servidor = http.createServer(function (entrada, respuesta) {
 //
 //        var ruta = definirRuta(entrada);

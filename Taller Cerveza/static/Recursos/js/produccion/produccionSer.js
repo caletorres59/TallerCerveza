@@ -27,22 +27,22 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-       
-       
+
+
         var promise = $http({
             method: "post",
             url: "/guardarProduccion",
             data: $httpParamSerializerJQLike({
                 codigo: identificacion.codigo,
                 fecha: identificacion.fecha,
-                tipo:  identificacion.selTipo.codigo,
-                presentacion: identificacion.selPresentacion.codigo,
-                comentarios: identificacion.comentarios        
+                tipo: identificacion.selTipo,
+                presentacion: identificacion.selPresentacion,
+                comentarios: identificacion.comentarios
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/ 
-                    
+            /*Todos los datos se almacenan en .data*/
+
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -54,21 +54,21 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Eliminar
-    
-     this.eliminar = function (codigo) {
+
+    this.eliminar = function (codigo) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-       
+
         var promise = $http({
             method: "post",
             url: "/eliminarProduccion",
             data: $httpParamSerializerJQLike({
                 codigo: codigo
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -80,24 +80,23 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Modificar
-     this.modificar = function (identificacion) {
+    this.modificar = function (identificacion) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
-        
+
         var promise = $http({
             method: "post",
             url: "/updateProduccion",
             data: $httpParamSerializerJQLike({
-                 codigo: identificacion.codigo,
-                 fecha: identificacion.fecha,
-                 tipo: identificacion.selTipo.codigo,
-                 presentacion: identificacion.selPresentacion.codigo,
-                 comentarios: identificacion.comentarios   
-               
+                codigo: identificacion.codigo,
+                fecha: identificacion.fecha,
+                tipo: identificacion.selTipo,
+                presentacion: identificacion.selPresentacion,
+                comentarios: identificacion.comentarios
             }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response;
         }, function myError(response) {
             alert("Error");
@@ -109,19 +108,19 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
     };
 
     //Listar
-     this.listar = function (identificacion) {
+    this.listar = function (identificacion) {
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-       
+
         var promise = $http({
             method: "post",
             url: "/listarProducciones",
             data: $httpParamSerializerJQLike({
             }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -134,15 +133,15 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
 
     this.listarCervezas = function (identificacion)
     {
-         
+
         var promise = $http({
             method: "post",
             url: "/listarTiposCerveza",
             data: $httpParamSerializerJQLike({
             }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -151,19 +150,19 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
 
         /*Luego se retorna la promesa*/
         return promise;
-        
-    }; 
-     this.listarPresentaciones = function (identificacion)
+
+    };
+    this.listarPresentaciones = function (identificacion)
     {
-         
+
         var promise = $http({
             method: "post",
             url: "/listarPresentaciones",
             data: $httpParamSerializerJQLike({
             }),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function mySucces(response) {
-            /*Todos los datos se almacenan en .data*/            
+            /*Todos los datos se almacenan en .data*/
             return response.data;
         }, function myError(response) {
             alert("Error");
@@ -172,8 +171,8 @@ app.service('produccionService', function ($http, $httpParamSerializerJQLike) {
 
         /*Luego se retorna la promesa*/
         return promise;
-        
-    }; 
+
+    };
 
 
 });

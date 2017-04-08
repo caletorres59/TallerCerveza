@@ -174,8 +174,7 @@ function updateProduccion(pedido, respuesta) {
     //Se crea un objeto con la informacion capturada
 
     var codigo = datos['codigo'];
-
-    console.log(codigo);
+    console.log(datos);
     var update = {
         FECHA: datos['fecha'],
         TIPOCERVEZA: datos['tipo'],

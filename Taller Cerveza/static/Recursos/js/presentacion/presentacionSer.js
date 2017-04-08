@@ -78,7 +78,6 @@ app.service('presentacionService', function ($http, $httpParamSerializerJQLike) 
         /*El resultado del $http es almacenado en la promesa*/
         /*Ademas se debe definir el tipo de cabecera para enviar los datos*/
 
-        alert("estoy en el servicio modificar");
         var promise = $http({
             method: "post",
             url: "/updatePresentacion",
